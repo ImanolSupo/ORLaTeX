@@ -6,6 +6,10 @@ ERROR: orlatex/set-conflict
 WARNING: orlatex/empty
 ERROR: orlatex/style
 ERROR: orlatex/objective
+\l__orlatex_row_1_expression_box=\box...
+\l__orlatex_row_1_domain_box=\box...
+\l__orlatex_row_2_expression_box=\box...
+\l__orlatex_row_2_domain_box=\box...
 ERROR: orlatex/unnumbered
 ERROR: orlatex/unnumbered
 ERROR: orlatex/row-label
@@ -17,113 +21,6 @@ ERROR: orlatex/objective
 ERROR: orlatex/objective
 ERROR: orlatex/objective
 WARNING: orlatex/overflow
-Overfull \hbox (136.89162pt too wide) detected at line 36
-[] 
-\hbox(8.39996+8.0333)x71.38881
-.\hbox(8.39996+8.0333)x208.28043
-..\mathon
-..\hbox(0.0+0.0)x0.0
-..\vbox(8.39996+8.0333)x208.28043
-...\hbox(8.39996+8.0333)x208.28043
-....\glue(\tabskip) 0.0
-....\hbox(8.39996+8.0333)x208.28043
-.....\glue 0.0 plus 1.0fil
-.....\hbox(8.39996+3.60004)x0.0
-......\vbox(8.39996+3.60004)x0.0
-.......\kern 0.0
-.......\hbox(8.39996+3.60004)x0.0
-........\rule(8.39996+3.60004)x0.0
-.....\mathon
-.....\hbox(6.94444+8.0333)x208.28043
-......\vbox(5.83333+8.0333)x47.54143
-.......\vbox(5.83333+8.0333)x47.54143
-........\hbox(5.83333+0.83333)x47.54143
-.........\glue(\tabskip) 0.0
-.........\hbox(5.83333+0.83333)x47.54143
-..........\mathon
-..........\glue 0.0 plus 1.0fil
-..........\hbox(5.83333+0.83333)x47.54143
-...........\OML/cmm/m/it/10 x
-...........\glue(\medmuskip) 2.22217 plus 1.11108 minus 2.22217
-...........\OT1/cmr/m/n/10 +
-...........\glue(\medmuskip) 2.22217 plus 1.11108 minus 2.22217
-...........\hbox(4.44444+0.0)x11.66661
-............\OMS/cmsy/m/n/10 ^^A
-............\glue(\thinmuskip) 1.66663
-............\OMS/cmsy/m/n/10 ^^A
-............\glue(\thinmuskip) 1.66663
-............\OMS/cmsy/m/n/10 ^^A
-...........\glue(\medmuskip) 2.22217 plus 1.11108 minus 2.22217
-...........\OT1/cmr/m/n/10 +
-...........\glue(\medmuskip) 2.22217 plus 1.11108 minus 2.22217
-...........\OML/cmm/m/it/10 x
-..........\glue 0.0 plus 1.0fil
-..........\mathoff
-.........\glue(\tabskip) 0.0
-........\kern 3.0
-........\hbox(1.19997+0.0)x47.54143
-.........\glue(\tabskip) 0.0
-.........\hbox(1.19997+0.0)x47.54143, glue set 14.77063fill
-..........\mathon
-..........\OMX/cmex/m/n/10 |
-..........\leaders 0.0 plus 1.0fill
-...........\rule(1.19997+0.0)x0.4
-..........\OMX/cmex/m/n/10 {
-..........\OMX/cmex/m/n/10 z
-..........\leaders 0.0 plus 1.0fill
-...........\rule(1.19997+0.0)x0.4
-..........\OMX/cmex/m/n/10 }
-..........\mathoff
-.........\glue(\tabskip) 0.0
-........\kern 3.0
-......\glue(\thinmuskip) 1.66663
-......\hbox(0.4+0.0)x3.6
-.......\hbox(0.4+0.0)x3.6
-........\kern 0.59998
-........\vbox(0.4+0.0)x3.00003
-.........\rule(0.4+0.0)x3.00003
-......\hbox(6.94444+1.94444)x137.13913
-.......\hbox(6.94444+1.94444)x137.13913
-........\OT1/cmr/m/n/10 d
-........\OT1/cmr/m/n/10 e
-........\OT1/cmr/m/n/10 l
-........\OT1/cmr/m/n/10 i
-........\OT1/cmr/m/n/10 b
-........\kern0.27779
-........\OT1/cmr/m/n/10 e
-........\OT1/cmr/m/n/10 r
-........\OT1/cmr/m/n/10 a
-........\OT1/cmr/m/n/10 t
-........\OT1/cmr/m/n/10 e
-........\OT1/cmr/m/n/10 l
-........\OT1/cmr/m/n/10 y
-........\kern-0.27779
-........\OT1/cmr/m/n/10 o
-........\kern-0.27779
-........\OT1/cmr/m/n/10 v
-........\kern-0.27779
-........\OT1/cmr/m/n/10 e
-........\OT1/cmr/m/n/10 r
-........\OT1/cmr/m/n/10 -
-........\OT1/cmr/m/n/10 w
-........\OT1/cmr/m/n/10 i
-........\OT1/cmr/m/n/10 d
-........\OT1/cmr/m/n/10 e
-........\OT1/cmr/m/n/10 e
-........\OT1/cmr/m/n/10 x
-........\OT1/cmr/m/n/10 p
-........\OT1/cmr/m/n/10 r
-........\OT1/cmr/m/n/10 e
-........\OT1/cmr/m/n/10 s
-........\OT1/cmr/m/n/10 s
-........\OT1/cmr/m/n/10 i
-........\OT1/cmr/m/n/10 o
-........\OT1/cmr/m/n/10 n
-......\glue(\thickmuskip) 2.77771 plus 2.77771
-......\OMS/cmsy/m/n/10 ^^T
-......\glue(\thickmuskip) 2.77771 plus 2.77771
-......\OT1/cmr/m/n/10 1
-.....\mathoff
-....\glue(\tabskip) 0.0
-..\mathoff
-.\glue 0.0 plus 1.0fil
+Overfull \hbox (136.89162pt too wide) detected at line 38
+[][][] 
+\hbox(8.39996+8.0333)x100.0 []

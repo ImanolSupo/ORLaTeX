@@ -84,6 +84,27 @@ braced groups, keep native LaTeX operators. `!=` and `==` are not aliases;
 Short names are local to ORLaTeX environments. See the
 [user guide](docs/orlatex.pdf) for options, structured commands, and numbering.
 
+Model domains use `domain-gap=auto`: normally 0.8em, reduced toward 0.3em when
+space is tight. If that row still cannot fit, its domain moves below; neighboring
+short rows keep their domains inline. `domain-gap=1em` or `10pt` fixes the gap.
+Use `domain-position=right` or `below` to force placement. A semicolon is
+inserted by default; `domain-separator={,}` changes it and `{}` disables it.
+A literal trailing comma, semicolon, or period already in the expression wins.
+Existing notation flow and fonts are preserved.
+
+Equation tags also adapt automatically: the model infers a compact shared anchor
+from its measured rows and local width. A much longer row keeps its own nearby
+tag without spreading out short neighbors. Tag gaps respond to width and font
+size, compress with domain gaps, and remain bounded; available width is not
+space that must be filled. When a domain moves below, its tag stays on the
+expression line. No minipage or two-column flag is needed for this behavior.
+
+Use `tag-gap=0.8em`, `2em`, or `12pt` for an exact row-local separation.
+Use `tag-position=right` for conventional publisher-style right-edge numbering.
+Both keys work in setup, named styles, model options and structured row options.
+The defaults are `tag-gap=auto,tag-position=auto`; numbering and references are
+unchanged.
+
 ## Examples and documentation
 
 | Start here | Purpose |
@@ -93,6 +114,7 @@ Short names are local to ORLaTeX environments. See the
 | [Two-column notation](examples/11-easy-two-column.tex) | Independent row adaptation |
 | [Narrow notation](examples/12-easy-narrow.tex) | Hanging continuations |
 | [Thirty constraints](examples/14-thirty-constraints.tex) | Model pagination and references |
+| [Adaptive tags](examples/19-adaptive-tags.tex) | Shared anchors, outliers, narrow domains and overrides |
 | [User guide PDF](docs/orlatex.pdf) / [source](docs/orlatex.tex) | Public API and limitations |
 
 All example sources are in [examples](examples). For implementation background,

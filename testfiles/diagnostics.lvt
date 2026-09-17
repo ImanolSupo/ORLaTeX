@@ -30,6 +30,8 @@
 \end{ormodel}
 \begin{ormodel}\objective[maximum]{x}\end{ormodel}
 \begin{ormodel}\constraint{x\leq1}\end{ormodel}
+% Keep the overflow warning, without platform-sensitive internal node dumps.
+\showboxbreadth=0 \showboxdepth=0
 \begin{minipage}{100pt}
 \begin{ormodel}[numbering=none]
   \objective{x}\constraint{\underbrace{x+\cdots+x}_{\text{deliberately over-wide expression}}\leq1}

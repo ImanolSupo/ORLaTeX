@@ -1,0 +1,8 @@
+% Copyright 2026 Imanol Felix Supo Mamani. Licensed under LPPL 1.3c.
+% See NOTICE.md and MANIFEST.txt for work scope and maintenance.
+\begin{ormodel}
+  \minimize \sum_i c_i x_i \\
+  \st x_i <= 10 \for{i in I} \\
+  \sum_j a_{ij}x_j <= b_i \for{i in I} \\
+  y_i+z_i <= 1 \for{i in I}
+\end{ormodel}

@@ -3,26 +3,61 @@ Don't change this file in any respect.
 ERROR: orlatex/input
 ERROR: orlatex/input
 ERROR: orlatex/input
-kind=set; math=J=\{1,2,\ldots ,n\}; domain=; type=
+kind=set
+math=J=\{1,2,\ldots ,n\}
+domain={}
+type=
 prose=Jobs
-kind=set; math=M=\{(j,t)\in J\times T\}; domain=; type=
+kind=set
+math=M=\{(j,t)\in J\times T\}
+domain={}
+type=
 prose=Pairs
-kind=parameter; math=c_{jt},f_{jt},h_{jt}; domain=j\in J,t\in T; type=
+kind=parameter
+math=c_{jt},f_{jt},h_{jt}
+domain={j\in J,t\in T}
+type=
 prose=Costs >= bounds, in ordinary prose
-kind=variable; math=x_i \geq  0; domain=i\in I; type=
-kind=variable; math=n!=k,n! =k,x==y,a\geq b,c\leq d; domain=; type=
-kind=variable; math=\frac {a>=b}{c<=d}+\text {literal >= in <=}+\mathrm {in}; d
-omain=; type=
-kind=variable; math=\Cost _i \leq  2; domain=\Domain ; type=
-kind=parameter; math=q_{ijt}; domain=(i,j)\in A,t\in T; type=
+kind=variable
+math=x_i \geq  0
+domain={i\in I}
+type=
+kind=variable
+math=n!=k,n! =k,x==y,a\geq b,c\leq d
+domain={}
+type=
+kind=variable
+math=\frac {a>=b}{c<=d}+\text {literal >= in <=}+\mathrm {in}
+domain={}
+type=
+kind=variable
+math=\Cost _i \leq  2
+domain={\Domain }
+type=
+kind=parameter
+math=q_{ijt}
+domain={(i,j)\in A,t\in T}
+type=
 prose=Tuple domain
-kind=parameter; math=a_j; domain=j J; type=
+kind=parameter
+math=a_j
+domain={j J}
+type=
 prose=Malformed domain
-kind=parameter; math=b_j; domain=j in; type=
+kind=parameter
+math=b_j
+domain={j in}
+type=
 prose=Missing set
-kind=parameter; math=e_j; domain=j\in J,k K; type=
+kind=parameter
+math=e_j
+domain={j\in J,k K}
+type=
 prose=Missing second membership
-kind=parameter; math=r_{ij}; domain=(i,j)\in \mathrm {A,B}; type=
+kind=parameter
+math=r_{ij}
+domain={(i,j)\in \mathrm {A,B}}
+type=
 prose=Opaque domain arguments
 PASS: param restored
 PASS: var restored

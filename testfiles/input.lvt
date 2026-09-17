@@ -16,7 +16,10 @@
 \START
 \ExplSyntaxOn
 \cs_new_protected:Npn \test_record:nnnnnnn #1#2#3#4#5#6#7
-  {\TYPE{kind=\tl_to_str:n{#1};~math=\tl_to_str:n{#2};~domain=\tl_to_str:n{#4};~type=\tl_to_str:n{#7}}
+  {\TYPE{kind=\tl_to_str:n{#1}}
+   \TYPE{math=\tl_to_str:n{#2}}
+   \TYPE{domain={\tl_to_str:n{#4}}}
+   \TYPE{type=\tl_to_str:n{#7}}
    \str_if_eq:nnF {#1}{variable}{\TYPE{prose=\tl_to_str:n{#3}}}}
 \cs_new_eq:NN \test_render: \__orlatex_descriptions_render:
 \cs_set_protected:Npn \__orlatex_descriptions_render:

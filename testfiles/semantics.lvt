@@ -9,8 +9,11 @@
 \START
 \ExplSyntaxOn
 \cs_new_protected:Npn \test_records:nnnnnnn #1#2#3#4#5#6#7
-  {\TYPE{kind=\tl_to_str:n{#1};~expression=\tl_to_str:n{#2};
-    ~for=\tl_to_str:n{#4};~label=\tl_to_str:n{#5};~type=\tl_to_str:n{#7}}}
+  {\TYPE{kind=\tl_to_str:n{#1}}
+   \TYPE{expression=\tl_to_str:n{#2}}
+   \TYPE{for=\tl_to_str:n{#4}}
+   \TYPE{label=\tl_to_str:n{#5}}
+   \TYPE{type=\tl_to_str:n{#7}}}
 \setbox0=\vbox{
 \begin{orsets}
   \set{\mathcal C}{Customers with arbitrary identifiers.}

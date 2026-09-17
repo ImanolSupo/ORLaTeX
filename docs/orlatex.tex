@@ -272,13 +272,84 @@ mathematical declaration, colon, description, and domain on one line when they
 fit. Safe gaps decrease before long descriptions wrap with hanging indentation;
 domains move below only when necessary. Short rows stay compact beside long rows.
 No automatic math-font styling, font shrinking, or margin invasion occurs.
-User punctuation remains literal; no period is inserted before the domain.
+User punctuation remains literal; model rows with domains default to a semicolon.
 
 \subsection{Where width adaptation stops}
 The model renderer measures expressions and index domains and reserves marker
 and equation-number space. It adapts component placement, without inferring
 mathematics or scaling boxes. Long unbreakable expressions still need authored
 breaks. A multiline row is indivisible and cannot split across pages.
+
+\subsection{Local model domains}
+Every model row places its domain immediately after its own expression.
+Equation tags remain separate from domains and use the adaptive placement
+described below. With \key{domain-gap=auto},
+the preferred and maximum gap is 0.8em and the minimum is 0.3em, measured in
+the row's selected font. The renderer reserves marker and tag space, measures
+the expression (including any separator) and domain, and uses the remaining
+width to reduce the gap. If they still cannot fit, only that domain moves below.
+A longer neighboring row never changes the gap or placement of a short row.
+
+Use \key{domain-gap=1em} or \key{domain-gap=10pt} for a fixed model gap.
+\key{domain-position=right} forces inline placement and can overflow;
+\key{domain-position=below} forces a continuation line. No two-column switch,
+font shrinking, or automatic margin extension is used. \key{layout=wide}
+retains its existing forced-inline meaning; stacked layout takes precedence.
+
+The default is \key{domain-separator=\{;\}}, following the author's editorial
+preference.\par
+Select \key{domain-separator=\{,\}} for commas.\par
+Select \key{domain-separator=\{\}} for none. The renderer appends punctuation
+only to expressions with domains, including when the domain moves below.
+A literal trailing comma, semicolon, or period takes precedence, avoiding doubled
+punctuation. Punctuation hidden in a macro or behind a spacing command is not
+inferred; in that case author the punctuation and leave the separator empty.
+The separator applies to models; notation retains its colon/prose conventions.
+
+\clearpage
+\subsection{Compact responsive equation tags}
+The defaults are \key{tag-gap=auto} and \key{tag-position=auto}.
+Available \verb|\linewidth| limits a model; it is not a width the model must fill.
+Objectives and constraints share a compact tag anchor when their natural widths
+permit it. A much longer row extends its own tag locally instead of pushing
+every short row toward the page edge. No class names or page geometry are tested.
+
+\begin{sourceexample}
+\begin{verbatim}
+\begin{ormodel}
+  \minimize \sum_i c_i x_i \\
+  \st x_i <= 10 \for{i in I} \\
+  \sum_j a_{ij}x_j <= b_i \for{i in I} \\
+  y_i+z_i <= 1 \for{i in I}
+\end{ormodel}
+\end{verbatim}
+\end{sourceexample}
+\input{examples/fixtures/tag-target.tex}
+
+For each row, the renderer measures the marker, expression, domain and actual
+upcoming tag in the selected font. Auto tag separation prefers one twenty-fifth
+of the available width after markers, bounded between 0.75em and 2em. It can
+compress to 0.5em when needed. Auto domain and tag gaps compress before a domain
+moves below. The tag then remains on the expression's first line, and the
+domain continuation can use the width below it. Mathematics is not shrunk.
+
+Natural row extents determine a shared anchor with a bounded extension from
+the central row width. Exceptional rows keep a local tag. Shared alignment
+adds padding to shorter rows, but never consumes arbitrary spare page width.
+The implementation and outlier rule are documented in ARCHITECTURE.md.
+
+Use \key{tag-gap=0.8em} for a tighter exact gap.\par
+Use \key{tag-gap=2em} for more breathing room, or \key{tag-gap=12pt} for a
+dimension. An explicit gap places each tag that exact distance after its own
+first-line content; tags may consequently have different horizontal positions.
+These options apply at global setup, named-style, model and structured-row levels.
+
+Use \key{tag-position=right} when a publisher requires conventional outer-right
+tags. This mode takes precedence over the compact anchor; \key{tag-gap} controls
+the minimum fitting reservation rather than the distance to the right edge.
+Forced/manual choices can overflow an extremely narrow context.
+The existing \key{numbering=rows}, \key{numbering=model}, \key{numbering=none},
+ordinary labels/references and \verb|\notag| retain their counter semantics.
 
 \clearpage
 \section{Customization and styles}
@@ -314,11 +385,14 @@ Dimensions must be nonnegative TeX dimensions.
 \key{layout} & auto, wide, stacked & auto & Automatic placement or explicit component layout.\\
 \key{domain-position} & auto, right, below & auto & Domain placement; forced right can overflow a narrow model.\\
 \key{font-size} & auto, normal, small, footnotesize, scriptsize & auto & Inherit the font size or explicitly select one.\\
-\key{density} & relaxed, normal, compact, dense & compact & Set row, outer, and domain spacing together.\\
+\key{density} & relaxed, normal, compact, dense & compact & Set row and outer spacing; automatic notation gap.\\
 \key{row-gap} & dimension & 2pt & Additional space after each row.\\
 \key{space-before} & dimension & 4pt & Vertical space before a block.\\
 \key{space-after} & dimension & 4pt & Vertical space after a block.\\
-\key{domain-gap} & dimension & 8pt & Model fit gap and notation prose-domain gap.\\
+\key{domain-gap} & auto or dimension & auto & Bounded model gap; density-dependent notation gap.\\
+\key{domain-separator} & math tokens & ; & Model punctuation before a domain.\\
+\key{tag-gap} & auto or dimension & auto & Model tag separation; explicit dimensions are row-local.\\
+\key{tag-position} & auto, right & auto & Compact responsive model anchor or conventional outer-right tags.\\
 \key{extend-left} & dimension & 0pt & Explicit width into the left margin.\\
 \key{extend-right} & dimension & 0pt & Explicit width into the right margin.\\
 \key{style} & defined style name & empty & Apply a named visual style.\\
@@ -339,6 +413,8 @@ normal & 4pt & 8pt & 8pt & 12pt\\
 compact & 2pt & 4pt & 4pt & 8pt\\
 dense & 1pt & 2pt & 2pt & 6pt
 \end{tabular}\par
+The last column describes automatic notation gaps. All presets now retain
+\key{domain-gap=auto}; models use the bounded relative gap described above.
 In notation, the default 8pt prose-domain gap may decrease to 3pt after a line
 fails to fit. The 3pt colon-prose gap may decrease to 2pt. This occurs before
 wrapping, without shrinking the mathematical font.
@@ -356,7 +432,8 @@ width permits; below places the domain on a continuation line after the descript
 \subsection{Element-level styles}
 Element-level control is available through the advanced structured API in the
 next section. Its row keys are \key{font-size}, \key{row-gap}, \key{domain-gap},
-and \key{domain-position}. A row style may contain only those four keys.
+\key{domain-separator}, \key{domain-position}, \key{tag-gap}, and
+\key{tag-position}. A row style may contain only those keys.
 It overrides environment values, then explicit element options override it.
 Styles never change mathematical notation or objective sense.
 

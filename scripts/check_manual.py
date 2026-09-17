@@ -17,10 +17,11 @@ def main():
     quickstart = quickstart[quickstart.index("\\documentclass"):]
     if not blocks or blocks[0] != quickstart:
         raise RuntimeError("The first complete guide example differs from the standalone quickstart")
-    responsive = (ROOT / "examples/fixtures/responsive-model.tex").read_text(encoding="utf-8")
-    responsive = responsive[responsive.index("\\begin{ormodel}"):]
-    if responsive not in blocks:
-        raise RuntimeError("Responsive chapter source differs from its rendered fixture")
+    for name in ("responsive-model", "tag-target"):
+        fixture = (ROOT / f"examples/fixtures/{name}.tex").read_text(encoding="utf-8")
+        fixture = fixture[fixture.index("\\begin{ormodel}"):]
+        if fixture not in blocks:
+            raise RuntimeError(f"Guide source differs from its rendered fixture: {name}")
     sources = []
     staging = ROOT / "tmp/manual-examples"
     staging.mkdir(parents=True, exist_ok=True)

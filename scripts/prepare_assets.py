@@ -24,7 +24,7 @@ def main():
     images = ROOT / "docs/images"
     images.mkdir(parents=True, exist_ok=True)
     subprocess.run([renderer, "-scale-to", "1400", "-singlefile", "-png", str(preview), str(images / "quickstart")], check=True, timeout=60)
-    inputs = ["orlatex.sty", "orlatex-input.code.tex", "docs/orlatex.tex", "docs/preview.tex", "examples/fixtures/planning-model.tex", "examples/fixtures/responsive-model.tex", "scripts/prepare_assets.py"]
+    inputs = ["orlatex.sty", "orlatex-input.code.tex", "docs/orlatex.tex", "docs/preview.tex", "examples/fixtures/planning-model.tex", "examples/fixtures/responsive-model.tex", "examples/fixtures/tag-target.tex", "scripts/prepare_assets.py"]
     assets = ["docs/orlatex.pdf", "docs/images/quickstart.png"]
     manifest = {"inputs": {p: digest(ROOT / p) for p in inputs}, "assets": {p: digest(ROOT / p) for p in assets}}
     (ROOT / "docs/assets.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")

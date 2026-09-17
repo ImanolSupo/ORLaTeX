@@ -86,12 +86,44 @@ This permits explicit multiline input without requiring the outer layout API to
 expose alignment columns. Available width is local `\linewidth` plus author-set
 extensions; page geometry and journal identity never enter the decision.
 
-Models reserve a marker column and a number column using each row's resolved
-font. The latter measures every upcoming equation number, respecting custom
-equation formats even when their widths do not increase with the counter. Auto domain
-placement tests expression width + domain width + configured gap against the
-remaining content width. Forced wide/right layouts and stacked/below layouts are
-explicit escape hatches. No automatic shrinking or arbitrary token splitting.
+Models share a measured marker reserve using every row's resolved font. Tag
+measurement considers every upcoming ordinary equation value, including custom
+formats such as Roman numbers; counter predictions are grouped and create no
+labels or hyperlinks. A preparation pass boxes each expression/domain once and
+caches the boxes locally, allocating private reusable registers only up to the
+largest row count encountered. Rendering reuses them rather than evaluating
+mathematics again to discover the model's natural width. Counter-sensitive math
+sees the same preceding equation value as before this preparation pass.
+
+For a tagged row, let W be local linewidth after explicit author extensions,
+M the marker reserve and T that row's actual tag width. Auto tag preference is
+clamp((W-M)/25, 0.75em, 2em), with a 0.5em fitting minimum. Auto domain preference
+is 0.8em with a 0.3em minimum. Fit first with both minima reserved, then prefer
+the tag separation by compressing the domain gap, and compress the tag gap if
+needed. If expression + domain + both minimum gaps + T cannot fit W-M, move only
+that domain below and recompute the tag separation beside the expression.
+Explicit dimensions retain their values. Untagged rows reserve neither T nor a
+tag gap. A below-domain line may use all W-M, independently of its first-line tag.
+
+Each automatically tagged row supplies its natural right extent (first-line
+content + fitted tag gap + actual tag width), capped to W-M for anchor selection.
+Sort those extents and take the upper middle value C (the smaller value for a
+two-row model). The common right edge is min(widest extent, C + max(2em, C/4)).
+This simple bounded extension preserves a shared compact anchor without letting
+one exceptional row determine the entire model width. A row extending beyond
+the anchor keeps its own natural tag edge. Objectives participate with constraints.
+Model numbering measures only the row actually bearing the model tag; notag
+and numbering=none contribute no anchor candidates. Sharing adds alignment
+padding within this bounded block, rather than stretching to unused page width.
+
+Manual tag-gap uses an exact row-local separation, bypassing the common anchor.
+tag-position=right explicitly puts the tag at W-M (the outer right edge after
+the marker); in that mode tag-gap is a fitting reservation. Both controls follow
+the ordinary setup/style/environment/structured-element cascade. Tags stay on
+the expression's first baseline when domains move below. Literal separators are
+added only with domains, and authored trailing comma/semicolon/period wins.
+Forced wide/right domain layouts and stacked/below layouts remain escape
+hatches. No automatic shrinking, class detection or arbitrary token splitting.
 
 Declaration blocks measure each expression, prose, and index domain separately.
 They try a colon-separated flowing line at the configured gap, then safe smaller
@@ -100,6 +132,7 @@ width is shared across rows. Only a domain too wide for the continuation is
 placed below; an unusually long prefix or explicit stacked layout can put prose
 below the prefix. Default density is compact, and no automatic font reduction
 occurs. Literal prose punctuation and mathematical symbol styling are preserved.
+For notation, domain-gap=auto resolves to the existing density-based prose/domain gap.
 Domains support the same explicit aligned breaks as model-row mathematics.
 Descriptions wrap as ordinary paragraphs. Oversize mathematical boxes remain
 visible and are diagnosed rather than silently scaled.

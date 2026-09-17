@@ -1,15 +1,16 @@
 {
   "inputs": {
-    "orlatex.sty": "f934460f449fb2a0ab8dafad0d952949b0ecdfcf1b9ab53e8c404376797d5dc2",
-    "orlatex-input.code.tex": "95f41948de2f7466aa170c8b873e1c42ab4f858886f71cca3006f7410a5665f9",
-    "docs/orlatex.tex": "e0b8b25cb44e9bd5ea0baecbfbda7156cf743ff5dcb4eceb6dea0ca44850a8aa",
-    "docs/preview.tex": "ea62b649592574215084826da7905aa85bc9f82a3cbb280168bd2f3c042a6cc4",
-    "examples/fixtures/planning-model.tex": "a540f90d9e5dc966f9da746ec6d81172ae2af1e98873f2eb9d3e1d5f99666f1b",
-    "examples/fixtures/responsive-model.tex": "fc7e8f3ab70a614edd8d698688f642a866d480fd8d8a75272152bb6985a821e5",
-    "scripts/prepare_assets.py": "6bc2f290ffbe3537be91f3bbf1c68e6bc731ad0ff2055eeb8902d3dd3d328c2c"
+    "orlatex.sty": "aafa253f3e2151b8ceb5fce97fdb2d882fe5da4237322101ca13442411c284f8",
+    "orlatex-input.code.tex": "0a8633dbf40ded774a956b5b59b4c03970036fd206e98e14464899a502a2ba09",
+    "docs/orlatex.tex": "ed0a32a16ff53b89a273abdd103c4bb0fbc3aabe6a7cf7fb83d7c674f0637242",
+    "docs/preview.tex": "03b6425dac69e7c2768536347625d5ff815d186315de8fdcbfc6cfb36df5e130",
+    "examples/fixtures/planning-model.tex": "483710d59c6abd3a71fa9643cdc9f36036ab5797753a263d9d40fba8850f1363",
+    "examples/fixtures/responsive-model.tex": "632207afe00f5cc6693609e9c2dfd719c013305e5d269ace55b0beae207962b8",
+    "examples/fixtures/tag-target.tex": "37cc4dea9ed764d49658ec807fa467fb789317b8116963e354e4f4d5c9bf4491",
+    "scripts/prepare_assets.py": "3affc534ac23a8dc21ec15cfeeab3fd9127eb6d3cbeaca04a1336f2fb8411a98"
   },
   "assets": {
-    "docs/orlatex.pdf": "731f0ed58420d1d107ed746da9431b2e83446d9703dcf67439539daa40095969",
-    "docs/images/quickstart.png": "ea96ca4bd39443a5e769d876e4ba814be1c36fd9c216266aae874b5fd358eb8c"
+    "docs/orlatex.pdf": "94e653163f1684ff90fab7399c24422d5853cb49ced772aafdcd9b781bb5effa",
+    "docs/images/quickstart.png": "c216dc3bcf9d9140d523fead2a9c5006ff0d63fcdfccc0eb7bb111638a08d0a8"
   }
 }

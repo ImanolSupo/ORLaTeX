@@ -1,5 +1,18 @@
 # Changelog
 
+## Unreleased
+
+- Add responsive `tag-gap=auto` and a compact shared anchor for objective and
+  constraint tags, with local handling of unusually long rows.
+- Add exact tag-gap dimensions and conventional `tag-position=right`, following
+  the existing setup/style/environment/structured-row cascade.
+- Fit domain and tag gaps jointly against local width; retain tags beside the
+  expression when domains continue below. Preserve numbering and references.
+- Use bounded automatic model domain gaps and configurable semicolon separators
+  in the coordinated fitting pass.
+- Cover responsive tags with regression contracts, visual fixtures, and manual
+  examples; split semantic regression records to avoid platform log wrapping.
+
 ## 0.1.0 — 2026-09-16 (local release candidate)
 
 - Reorganized the guide around a self-contained two-page lightweight workflow,

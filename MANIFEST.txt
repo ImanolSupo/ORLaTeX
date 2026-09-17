@@ -40,6 +40,9 @@ examples/12-easy-narrow.tex
 examples/13-api-comparison.tex
 examples/14-thirty-constraints.tex
 examples/15-easy-model-layouts.tex
+examples/19-adaptive-tags.tex
+examples/20-adaptive-tags-article.tex
+examples/21-adaptive-tags-two-column.tex
 examples/comparison/bin-packing-light.tex
 examples/comparison/bin-packing-raw.tex
 examples/comparison/bin-packing-structured.tex
@@ -53,6 +56,7 @@ examples/fixtures/easy-notation.tex
 examples/fixtures/planning-data.tex
 examples/fixtures/planning-model.tex
 examples/fixtures/responsive-model.tex
+examples/fixtures/tag-target.tex
 orlatex-input.code.tex
 orlatex.sty
 ormath.sty
@@ -101,3 +105,5 @@ testfiles/robustness.tlg
 testfiles/semantics.lvt
 testfiles/semantics.tlg
 testfiles/support/alias-contract.tex
+testfiles/tags.lvt
+testfiles/tags.tlg

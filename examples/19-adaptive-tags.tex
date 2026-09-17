@@ -1,0 +1,88 @@
+% Copyright 2026 Imanol Felix Supo Mamani. Licensed under LPPL 1.3c.
+% See NOTICE.md and MANIFEST.txt for work scope and maintenance.
+\documentclass{article}
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage{orlatex}
+\begin{document}
+\section*{One source, compact responsive equation tags}
+\input{examples/fixtures/tag-target.tex}
+\subsection*{350pt}
+\noindent\begin{minipage}{350pt}\input{examples/fixtures/tag-target.tex}\end{minipage}\par
+\subsection*{250pt}
+\noindent\begin{minipage}{250pt}\input{examples/fixtures/tag-target.tex}\end{minipage}\par
+\subsection*{180pt}
+\noindent\begin{minipage}{180pt}\input{examples/fixtures/tag-target.tex}\end{minipage}\par
+\subsection*{145pt}
+\noindent\begin{minipage}{145pt}\input{examples/fixtures/tag-target.tex}\end{minipage}\par
+\clearpage
+\section*{Relative widths}
+\subsection*{0.75 linewidth}
+\noindent\begin{minipage}{.75\linewidth}\input{examples/fixtures/tag-target.tex}\end{minipage}\par
+\subsection*{0.5 linewidth}
+\noindent\begin{minipage}{.5\linewidth}\input{examples/fixtures/tag-target.tex}\end{minipage}\par
+\subsection*{One long objective, short neighbors}
+\begin{ormodel}
+  \minimize \sum_i c_i x_i+\sum_j f_j y_j+\sum_t h_t z_t+\sum_k q_k w_k \\
+  \st x_i <= 10 \for{i in I} \\
+  y_i+z_i <= 1 \for{i in I} \\
+  w_i >= 0 \for{i in I}
+\end{ormodel}
+\subsection*{One long constraint, short neighbors}
+\begin{ormodel}
+  \minimize \sum_i c_i x_i \\
+  \st x_i <= 10 \for{i in I} \\
+  \sum_j a_{ij}x_j+\sum_k q_{ik}y_k+\sum_t h_{it}z_t <= b_i \for{i in I} \\
+  y_i+z_i <= 1 \for{i in I}
+\end{ormodel}
+\clearpage
+\section*{Domain continuation and numbering}
+\noindent\begin{minipage}{145pt}
+\begin{ormodel}
+  \minimize \sum_i c_i x_i \\
+  \st x_i <= 10 \for{i in I,j in J,t in T} \\
+  y_i+z_i <= 1 \for{i in I}
+\end{ormodel}
+\end{minipage}\par
+\begin{ormodel}[numbering=model,label=mod:tag-model]
+  \minimize \sum_i c_i x_i \\
+  \st x_i <= 10 \for{i in I}
+\end{ormodel}
+Model~\eqref{mod:tag-model} uses one tag.
+\begin{ormodel}[numbering=none]
+  \minimize \sum_i c_i x_i \\
+  \st x_i <= 10 \for{i in I}
+\end{ormodel}
+\begin{ormodel}
+  \minimize \sum_i c_i x_i \label{obj:tag-test} \\
+  \st x_i <= 10 \for{i in I} \notag \\
+  y_i+z_i <= 1 \for{i in I} \label{con:tag-test}
+\end{ormodel}
+Objective~\eqref{obj:tag-test}; constraint~\eqref{con:tag-test}.
+\subsection*{All short rows, no domains}
+\begin{ormodel}
+  \minimize 0 \\
+  \st x <= 1 \\
+  y >= 0 \\
+  z=1
+\end{ormodel}
+\clearpage
+\section*{Author overrides}
+\begin{ormodel}[tag-gap=.8em]
+  \minimize \sum_i c_i x_i \\
+  \st x_i <= 10 \for{i in I}
+\end{ormodel}
+\begin{ormodel}[tag-gap=2em]
+  \minimize \sum_i c_i x_i \\
+  \st x_i <= 10 \for{i in I}
+\end{ormodel}
+\begin{ormodel}[tag-position=right]
+  \minimize \sum_i c_i x_i \\
+  \st x_i <= 10 \for{i in I}
+\end{ormodel}
+\orlatexstyle{tag-room}{tag-gap=12pt}
+\begin{ormodel}[style=tag-room]
+  \objective[min]{\sum_i c_i x_i}
+  \constraint[tag-gap=1em]{x_i\leq10}
+  \constraint[tag-position=right]{y_i\leq1}
+\end{ormodel}
+\end{document}
