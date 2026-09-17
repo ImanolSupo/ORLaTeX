@@ -17,7 +17,7 @@ def main():
     quickstart = quickstart[quickstart.index("\\documentclass"):]
     if not blocks or blocks[0] != quickstart:
         raise RuntimeError("The first complete guide example differs from the standalone quickstart")
-    for name in ("responsive-model", "tag-target"):
+    for name in ("responsive-model", "tag-target", "summation-model"):
         fixture = (ROOT / f"examples/fixtures/{name}.tex").read_text(encoding="utf-8")
         fixture = fixture[fixture.index("\\begin{ormodel}"):]
         if fixture not in blocks:

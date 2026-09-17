@@ -43,6 +43,7 @@ examples/15-easy-model-layouts.tex
 examples/19-adaptive-tags.tex
 examples/20-adaptive-tags-article.tex
 examples/21-adaptive-tags-two-column.tex
+examples/22-indexed-summations.tex
 examples/comparison/bin-packing-light.tex
 examples/comparison/bin-packing-raw.tex
 examples/comparison/bin-packing-structured.tex
@@ -56,6 +57,7 @@ examples/fixtures/easy-notation.tex
 examples/fixtures/planning-data.tex
 examples/fixtures/planning-model.tex
 examples/fixtures/responsive-model.tex
+examples/fixtures/summation-model.tex
 examples/fixtures/tag-target.tex
 orlatex-input.code.tex
 orlatex.sty
@@ -104,6 +106,8 @@ testfiles/robustness.lvt
 testfiles/robustness.tlg
 testfiles/semantics.lvt
 testfiles/semantics.tlg
+testfiles/sums.lvt
+testfiles/sums.tlg
 testfiles/support/alias-contract.tex
 testfiles/tags.lvt
 testfiles/tags.tlg

@@ -175,6 +175,28 @@ Starred domains bypass it. Factorial/equality remain literal: there is no != or
 == shorthand. Captured bodies do not support verbatim or macro-generated row
 structure. Full included model environments and macros inside mathematics work.
 
+Indexed summations live in the existing input adapter module. `\orsum` is a
+public mathematical operator; `ormodel` binds `\Sum` locally before collection
+and rendering. No model record fields or responsive-layout decisions are added.
+The command consumes only its starred flag and braced specification, then emits
+one ordinary `\sum` with a subscript. It never consumes the summand.
+
+The normal path separates the optional literal space-delimited `where` before
+passing memberships to the same token scanner and clause validator used by
+`\for`. Brace groups are opaque and parenthesized membership commas are
+protected. The shared validator can collect clauses for summation without
+altering stored `\for` output or its diagnostics. Summation clauses join with
+`comma + \;`, followed by `:\,` and the optional condition. Condition commas
+are never fed to membership splitting; only existing safe inequality
+normalization applies. Macros are not expanded to find grammar. Literal `in`
+after `where`, empty conditions and repeated `where` are errors. Raw subscripts
+bypass the parser entirely. Explicit nested commands emit explicit nested sums.
+
+Parsing state is grouped by each operator, avoiding interference with row/domain
+collection or nested operators. Collision tests verify both an existing and an
+undefined external `\Sum` are restored after the model. Dimension comparisons
+against native LaTeX verify operator count, raw escapes and untouched summands.
+
 ## Diagnostics and tests
 
 Package diagnostics cover invalid context, unknown option/style, nested styles,

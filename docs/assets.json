@@ -1,16 +1,17 @@
 {
   "inputs": {
     "orlatex.sty": "aafa253f3e2151b8ceb5fce97fdb2d882fe5da4237322101ca13442411c284f8",
-    "orlatex-input.code.tex": "0a8633dbf40ded774a956b5b59b4c03970036fd206e98e14464899a502a2ba09",
-    "docs/orlatex.tex": "ed0a32a16ff53b89a273abdd103c4bb0fbc3aabe6a7cf7fb83d7c674f0637242",
+    "orlatex-input.code.tex": "2c0d4c75aec4fd4ef051b0232fd055269f357c8410eb4ebdda9a8628361f3828",
+    "docs/orlatex.tex": "dc03106a0cb8410b12e4b2f8e45b5bcd1211dc993016fe76a4bdbdd1d41ead7d",
     "docs/preview.tex": "03b6425dac69e7c2768536347625d5ff815d186315de8fdcbfc6cfb36df5e130",
     "examples/fixtures/planning-model.tex": "483710d59c6abd3a71fa9643cdc9f36036ab5797753a263d9d40fba8850f1363",
     "examples/fixtures/responsive-model.tex": "632207afe00f5cc6693609e9c2dfd719c013305e5d269ace55b0beae207962b8",
     "examples/fixtures/tag-target.tex": "37cc4dea9ed764d49658ec807fa467fb789317b8116963e354e4f4d5c9bf4491",
-    "scripts/prepare_assets.py": "3affc534ac23a8dc21ec15cfeeab3fd9127eb6d3cbeaca04a1336f2fb8411a98"
+    "examples/fixtures/summation-model.tex": "944a5428854856cc4aae8eff5b4b88d57ba561c19a243552361590c1e32b5983",
+    "scripts/prepare_assets.py": "a2a40800af946f227a9ab1734eba7b087ff83ddcc7be62fb80ca31f51129bcf7"
   },
   "assets": {
-    "docs/orlatex.pdf": "94e653163f1684ff90fab7399c24422d5853cb49ced772aafdcd9b781bb5effa",
+    "docs/orlatex.pdf": "8914b44f664f65703c650b4aa8e2600655bf4e3db6bc2da06881e55a421e8ccc",
     "docs/images/quickstart.png": "c216dc3bcf9d9140d523fead2a9c5006ff0d63fcdfccc0eb7bb111638a08d0a8"
   }
 }

@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Add public `\orsum` and model-local `\Sum` indexed summation shorthand,
+  with one operator per command, shared membership parsing, an optional single
+  mathematical `where` condition, and starred raw subscripts.
+- Cover operator semantics, token preservation, diagnostics, scope restoration,
+  and isolated package loading with summation regressions and examples.
+
 - Add responsive `tag-gap=auto` and a compact shared anchor for objective and
   constraint tags, with local handling of unusually long rows.
 - Add exact tag-gap dimensions and conventional `tag-position=right`, following

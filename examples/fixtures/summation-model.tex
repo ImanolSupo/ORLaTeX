@@ -1,0 +1,8 @@
+% Copyright 2026 Imanol Felix Supo Mamani. Licensed under LPPL 1.3c.
+% See NOTICE.md and MANIFEST.txt for work scope and maintenance.
+\begin{ormodel}
+  \minimize \Sum{i in I} L_i
+    + \Sum{i in I,j in J} c_{ij}x_{ij} \\
+  \st \Sum{j in J} a_{ij}x_j <= b_i \for{i in I} \\
+  \Sum{(i,j) in A where c_{ij}>0} y_{ij} <= M
+\end{ormodel}

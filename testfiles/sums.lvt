@@ -1,0 +1,106 @@
+% Copyright 2026 Imanol Felix Supo Mamani. Licensed under LPPL 1.3c.
+% See NOTICE.md and MANIFEST.txt for work scope and maintenance.
+\input regression-test.tex
+\documentclass{article}
+\def\Sum{external-sum}\let\savedSum\Sum
+\usepackage{orlatex}
+\def\IndexSet{\mathcal{I}}
+\begin{document}
+\setbox0=\hbox{$x$}
+\START
+\ExplSyntaxOn
+\cs_new_protected:Npn \test_assert:nn #1#2
+  {\bool_if:nTF {#1}{\TYPE{PASS:~#2}}{\TYPE{FAIL:~#2}}}
+\test_assert:nn {\cs_if_eq_p:NN \Sum\savedSum}{external~Sum~untouched~on~load}
+\cs_new_protected:Npn \test_spec:nnn #1#2#3
+  {\group_begin:
+   \__orlatex_sum_spec:nN {#1}\l_tmpa_tl
+   \tl_if_eq:NnTF \l_tmpa_tl {#2}
+     {\TYPE{PASS:~#3}}{\TYPE{FAIL:~#3}}
+   \group_end:}
+\test_spec:nnn {i~in~I}{i\in I}{single~membership}
+\test_spec:nnn {i~in~I,j~in~J}{i\in I,\;j\in J}{one~multidimensional~domain}
+\test_spec:nnn {(i,j)~in~A}{(i,j)\in A}{tuple~comma~protected}
+\test_spec:nnn {i~in~I,j~in~J_i}{i\in I,\;j\in J_i}{dependent~set}
+\test_spec:nnn {i~in~\mathcal{I}}{i\in\mathcal{I}}{grouped~set~preserved}
+\test_spec:nnn {i~in~\IndexSet}{i\in\IndexSet}{set~macro~not~expanded}
+\test_spec:nnn {i~in~I_j}{i\in I_j}{subscripted~set}
+\test_spec:nnn {i~in~F(a,b)}{i\in F(a,b)}{function~comma~protected}
+\test_spec:nnn {i~in~I~where~d_i>0}{i\in I:\,d_i>0}{single~filter}
+\test_spec:nnn {i~in~I,j~in~J~where~a_{ij}>=1}
+  {i\in I,\;j\in J:\,a_{ij}\geq1}{filter~covers~complete~domain}
+\test_spec:nnn {(i,j)~in~A~where~c_{ij}>0}
+  {(i,j)\in A:\,c_{ij}>0}{tuple~filter}
+\test_spec:nnn {i~in~I~where~f(i,j)>0,\;g(i,j)<=5}
+  {i\in I:\,f(i,j)>0,\;g(i,j)\leq5}{filter~commas~remain~math}
+\test_spec:nnn {i~in~I~where~g_{ij}(\alpha,\beta)<=M}
+  {i\in I:\,g_{ij}(\alpha,\beta)\leq M}{filter~macros~preserved}
+\test_spec:nnn {i~in~I~where~d_i\in\{0,1\}}
+  {i\in I:\,d_i\in\{0,1\}}{native~condition~membership}
+\test_spec:nnn {i~in~I~where~a_i!=b_i\land c_i==d_i}
+  {i\in I:\,a_i!=b_i\land c_i==d_i}{ambiguous~operators~unchanged}
+\test_spec:nnn {i~in~\mathrm{in,where}}
+  {i\in\mathrm{in,where}}{grouped~keywords~opaque}
+\test_spec:nnn {i~in~\mathrm{a~where~b}}
+  {i\in\mathrm{a~where~b}}{grouped~where~delimiter~opaque}
+\cs_new_protected:Npn \test_math:nnn #1#2#3
+  {\hbox_set:Nn \l_tmpa_box {$\displaystyle #1$}
+   \hbox_set:Nn \l_tmpb_box {$\displaystyle #2$}
+   \test_assert:nn
+     {\dim_compare_p:n {\box_wd:N\l_tmpa_box=\box_wd:N\l_tmpb_box}
+      &&\dim_compare_p:n {\box_ht:N\l_tmpa_box=\box_ht:N\l_tmpb_box}
+      &&\dim_compare_p:n {\box_dp:N\l_tmpa_box=\box_dp:N\l_tmpb_box}}{#3}}
+\cs_new_eq:NN \TestMath \test_math:nnn
+\ExplSyntaxOff
+\TestMath {\orsum{i in I,j in J}x_{ij}}
+  {\sum_{i\in I,\;j\in J}x_{ij}}{one command one symbol}
+\TestMath {\orsum{i in I}\orsum{j in J}x_{ij}}
+  {\sum_{i\in I}\sum_{j\in J}x_{ij}}{explicit nested symbols}
+\TestMath {\orsum*{i\in I:\,d_i>0}x_i}
+  {\sum_{i\in I:\,d_i>0}x_i}{raw subscript}
+\TestMath {\orsum*{\substack{i\in I\\j\in J_i}}x_{ij}}
+  {\sum_{\substack{i\in I\\j\in J_i}}x_{ij}}{raw substack}
+\TestMath {\orsum{i in I}x_i+\orsum{j in J}y_j}
+  {\sum_{i\in I}x_i+\sum_{j\in J}y_j}{summand not captured}
+\ExplSyntaxOn
+\group_begin:
+\cs_set_protected:Npn \msg_error:nnn #1#2#3 {\TYPE{ERROR:~#2:~#3}}
+\__orlatex_sum_spec:nN {i~I}\l_tmpa_tl
+\__orlatex_sum_spec:nN {i~in}\l_tmpa_tl
+\__orlatex_sum_spec:nN {in~I}\l_tmpa_tl
+\__orlatex_sum_spec:nN {i~in~I~where}\l_tmpa_tl
+\__orlatex_sum_spec:nN {i~in~I~where~d_i>0~where~a_i=1}\l_tmpa_tl
+\__orlatex_sum_spec:nN {i~in~I~where~where}\l_tmpa_tl
+\__orlatex_sum_spec:nN {i~in~I~where~d_i>0,j~in~J}\l_tmpa_tl
+\__orlatex_sum_spec:nN {i~in~I,}\l_tmpa_tl
+\__orlatex_sum_spec:nN {(i,j~in~A}\l_tmpa_tl
+\group_end:
+\ExplSyntaxOff
+\ExplSyntaxOn
+\cs_new_eq:NN \test_sum_row:nnnnnnn \__orlatex_model_row:nnnnnnn
+\cs_set_protected:Npn \__orlatex_model_row:nnnnnnn #1#2#3#4#5#6#7
+  {\tl_if_blank:nF {#5}{\TYPE{label:~#5}}
+   \test_sum_row:nnnnnnn {#1}{#2}{#3}{#4}{#5}{#6}{#7}}
+\ExplSyntaxOff
+\setbox0=\vbox{\begin{ormodel}
+  \objective{\Sum{i in I}x_i}
+  \constraint{\orsum{j in J}y_j\geq0}
+\end{ormodel}}
+\setbox0=\vbox{\hsize=145pt\linewidth=145pt
+\begin{ormodel}
+  \maximize \Sum{i in I}x_i\label{sum:objective}\\
+  \st \Sum{j in J}x_j<=b_i\for{i in I,j in J,t in T}\notag\\
+  \Sum*{i\in I}x_i>=0\label{sum:constraint}
+\end{ormodel}}
+\ExplSyntaxOn
+\test_assert:nn {\cs_if_eq_p:NN \Sum\savedSum}{external~Sum~restored~after~model}
+\test_assert:nn {\int_compare_p:n {\value{equation}=4}}{sum~does~not~change~numbering}
+\cs_undefine:N \Sum
+\ExplSyntaxOff
+\setbox0=\vbox{\begin{ormodel}[numbering=none]
+  \minimize \Sum{i in I}x_i
+\end{ormodel}}
+\ExplSyntaxOn
+\test_assert:nn {!\cs_if_exist_p:N \Sum}{undefined~external~Sum~stays~undefined}
+\ExplSyntaxOff
+\END

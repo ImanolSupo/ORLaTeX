@@ -242,6 +242,93 @@ Here $f_k,y_k$ are machine setup costs and indicators. Use \verb|{}+| or
 ORLaTeX does not automatically split arbitrary mathematical expressions.
 
 \clearpage
+\subsection{Indexed summations}
+Inside \texttt{ormodel}, the optional \verb|\Sum| shorthand produces an indexed
+operator and leaves all following mathematics untouched. One command always
+means one summation symbol. Comma-separated memberships share its subscript;
+write two commands explicitly for nested summation symbols.
+\begin{sourceexample}
+\begin{verbatim}
+\begin{ormodel}[numbering=none]
+  \minimize \Sum{i in I,j in J_i} c_{ij}x_{ij} \\
+  \st \Sum{i in I}\Sum{j in J_i} c_{ij}x_{ij} <= B
+\end{ormodel}
+\end{verbatim}
+\end{sourceexample}
+\begin{ormodel}[numbering=none]
+  \minimize \Sum{i in I,j in J_i} c_{ij}x_{ij} \\
+  \st \Sum{i in I}\Sum{j in J_i} c_{ij}x_{ij} <= B
+\end{ormodel}
+Use \verb|\Sum{(i,j) in A}| for tuple membership and
+\verb|\Sum{i in \mathcal{I}}| for a set written with ordinary math macros.
+Brace groups and commas inside parentheses are protected. Set expressions and
+macros are preserved without expansion by the parser.
+
+An optional single \texttt{where} follows the complete membership list. Its
+condition is ordinary mathematical LaTeX; condition commas are not membership
+separators. Only top-level \verb|>=| and \verb|<=| are normalized, following
+existing input policy. Neither \verb|!=| nor \verb|==| is rewritten, and words
+such as \texttt{and} or \texttt{or} have no special meaning. Write
+\verb|\land|, \verb|\lor|, \verb|\neq| and \verb|\in| normally in conditions.
+
+Standard LaTeX remains available:
+\begin{sourceexample}
+\begin{verbatim}
+\[
+  \sum_{\substack{i\in I,\;j\in J\\a_{ij}>0}}
+    c_{ij}x_{ij}
+\]
+\end{verbatim}
+\end{sourceexample}
+The optional convenience form uses a colon before the condition:
+\begin{sourceexample}
+\begin{verbatim}
+\begin{ormodel}[numbering=none]
+  \minimize \Sum{i in I,j in J where a_{ij}>0}
+    c_{ij}x_{ij}
+\end{ormodel}
+\end{verbatim}
+\end{sourceexample}
+\begin{ormodel}[numbering=none]
+  \minimize \Sum{i in I,j in J where a_{ij}>0} c_{ij}x_{ij}
+\end{ormodel}
+
+The public namespaced command \verb|\orsum| works in ordinary math and in
+structured objectives and constraints.
+
+The short alias \verb|\Sum| exists only inside \texttt{ormodel}; any previous
+meaning is restored afterward. Neither command changes standard \verb|\sum|.
+
+The starred form supplies its subscript verbatim,
+bypassing membership parsing and operator normalization:
+\begin{sourceexample}
+\begin{verbatim}
+\[
+  \orsum*{\substack{i\in I\\j\in J_i\\(i,j)\notin A}}
+    x_{ij}
+\]
+\end{verbatim}
+\end{sourceexample}
+Use \verb|\Sum*| inside a model for the same escape. Each convenience membership
+needs an index and a set. Empty conditions, repeated \texttt{where}, and literal
+\texttt{in} memberships after \texttt{where} produce actionable errors suggesting
+the raw form. Keywords are literal and space-delimited; macros cannot supply
+hidden grammar. Advanced subscripts, custom punctuation and multiline conditions
+belong in the starred form or standard LaTeX.
+
+The following realistic example uses the same source as the visual fixture:
+\begin{sourceexample}
+\begin{verbatim}
+\begin{ormodel}
+  \minimize \Sum{i in I} L_i
+    + \Sum{i in I,j in J} c_{ij}x_{ij} \\
+  \st \Sum{j in J} a_{ij}x_j <= b_i \for{i in I} \\
+  \Sum{(i,j) in A where c_{ij}>0} y_{ij} <= M
+\end{ormodel}
+\end{verbatim}
+\end{sourceexample}
+\input{examples/fixtures/summation-model.tex}
+
 \section{Responsive layout}
 The same source adapts to the surrounding \verb|\linewidth|. This feasibility
 model has activities $J$, resource constraints $I$, periods $T$, resource usage
@@ -506,8 +593,9 @@ Namespaced structured commands are \verb|\orset|, \verb|\orparameter|,
 \verb|\orvariable|, \verb|\orobjective|, and \verb|\orconstraint|. Lightweight
 adapters also expose \verb|\orvar|, \verb|\orsetdef|, and \verb|\orfor| in their
 checked contexts. The short aliases exist only within their corresponding
-ORLaTeX environments; prior meanings are restored afterwards. Namespaced
-commands diagnose use outside the required context.
+ORLaTeX environments; prior meanings are restored afterwards. These declaration
+commands diagnose use outside the required context. The mathematical operator
+\verb|\orsum| also works in ordinary math, with \verb|\Sum| local to models.
 
 \subsection{Package loading}
 Recommended loading remains \verb|\usepackage{orlatex}|. The compatibility

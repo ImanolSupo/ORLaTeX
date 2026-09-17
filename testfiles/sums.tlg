@@ -1,0 +1,45 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+PASS: external Sum untouched on load
+PASS: single membership
+PASS: one multidimensional domain
+PASS: tuple comma protected
+PASS: dependent set
+PASS: grouped set preserved
+PASS: set macro not expanded
+PASS: subscripted set
+PASS: function comma protected
+PASS: single filter
+PASS: filter covers complete domain
+PASS: tuple filter
+PASS: filter commas remain math
+PASS: filter macros preserved
+PASS: native condition membership
+PASS: ambiguous operators unchanged
+PASS: grouped keywords opaque
+PASS: grouped where delimiter opaque
+PASS: one command one symbol
+PASS: explicit nested symbols
+PASS: raw subscript
+PASS: raw substack
+PASS: summand not captured
+ERROR: sum-input: each clause needs one membership: index in set
+ERROR: sum-input: each clause needs one membership: index in set
+ERROR: sum-input: each clause needs one membership: index in set
+ERROR: sum-input: where needs a condition
+ERROR: sum-input: where may appear only once
+ERROR: sum-input: where may appear only once
+ERROR: sum-input: put all memberships before where
+ERROR: sum-input: each clause needs one membership: index in set
+ERROR: sum-input: unbalanced membership parentheses
+\l__orlatex_row_1_expression_box=\box...
+\l__orlatex_row_1_domain_box=\box...
+\l__orlatex_row_2_expression_box=\box...
+\l__orlatex_row_2_domain_box=\box...
+\l__orlatex_row_3_expression_box=\box...
+\l__orlatex_row_3_domain_box=\box...
+label: sum:objective
+label: sum:constraint
+PASS: external Sum restored after model
+PASS: sum does not change numbering
+PASS: undefined external Sum stays undefined

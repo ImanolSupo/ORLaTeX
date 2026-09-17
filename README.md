@@ -61,6 +61,24 @@ wrapper file beside the two required files. Recommended loading is `orlatex`.
 - Scoped short commands, plus setup, named styles, and explicit font/spacing options.
 - An advanced structured API for metadata and element-level control.
 
+Optional indexed summations reduce repeated membership syntax:
+
+```latex
+\begin{ormodel}
+  \minimize \Sum{i in I,j in J_i} c_{ij}x_{ij} \\
+  \st \Sum{(i,j) in A where c_{ij}>0} y_{ij} <= M
+\end{ormodel}
+```
+
+One `\Sum` produces one symbol over the complete domain. Write
+`\Sum{i in I}\Sum{j in J}` for two nested symbols. The optional single `where`
+condition is ordinary math, not prose; use `\land`, `\neq` and native operators.
+`\Sum*{...}` supplies raw subscript math, including `\substack`. The short alias
+is local to `ormodel` and restores any external meaning. Public `\orsum` and
+`\orsum*` also work in ordinary math and structured expressions; standard `\sum`
+is unchanged. See [22-indexed-summations.tex](examples/22-indexed-summations.tex)
+and the manual for examples and grammar limits.
+
 The lightweight API is recommended for ordinary paper writing; the structured
 API is optional. Both feed the same semantic representation and renderer.
 

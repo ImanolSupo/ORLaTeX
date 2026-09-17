@@ -11,6 +11,11 @@ def main():
     staging = ROOT / "tmp/alias-smoke"
     staging.mkdir(parents=True, exist_ok=True)
     source = (ROOT / "examples/00-quickstart.tex").read_text(encoding="utf-8")
+    # Exercise indexed operators through the isolated runtime input module.
+    native_sum = r"\sum_{i\in I}"
+    if native_sum not in source:
+        raise RuntimeError("Quickstart no longer contains the loader-test summation")
+    source = source.replace(native_sum, r"\Sum{i in I}")
     loaders = ("orlatex", "ortex", "ormath", "orlatex,ortex,ormath,orlatex", "ormath,ortex,orlatex,ormath")
     with tempfile.TemporaryDirectory(prefix="install-", dir=staging) as directory:
         install = Path(directory)

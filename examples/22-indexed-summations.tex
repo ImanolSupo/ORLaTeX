@@ -1,0 +1,43 @@
+% Copyright 2026 Imanol Felix Supo Mamani. Licensed under LPPL 1.3c.
+% See NOTICE.md and MANIFEST.txt for work scope and maintenance.
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{orlatex}
+\newcommand\Sum{external sum}
+\begin{document}
+\section*{Indexed summations, ordinary mathematics}
+The optional shorthand produces one symbol per command.
+\input{examples/fixtures/summation-model.tex}
+\subsection*{One multidimensional sum and explicit nested sums}
+\begin{ormodel}[numbering=none]
+  \minimize \Sum{i in I,j in J_i} c_{ij}x_{ij} \\
+  \st \Sum{i in I}\Sum{j in J_i} c_{ij}x_{ij} <= B
+\end{ormodel}
+\subsection*{Filtered memberships and raw mathematics}
+\begin{ormodel}
+  \maximize \Sum{i in \mathcal{I} where d_i >= 0} p_i x_i \\
+  \st \Sum{i in I,j in J where a_{ij}=1} x_{ij} <= K \\
+  \Sum*{\substack{i\in I\\j\in J_i\\(i,j)\notin A}} x_{ij} <= M
+\end{ormodel}
+Outside the environment, the author's command is restored: \Sum.
+\newpage
+\section*{Local narrow width and domain continuation}
+\begin{minipage}{180pt}
+\begin{ormodel}
+  \minimize \Sum{i in I} c_i x_i \label{sum:cost} \\
+  \st \Sum{j in J} a_{ij}x_j <= b_i
+    \for{i in I,j in J,t in T} \label{sum:capacity} \\
+  x_i >= 0 \for{i in I} \notag
+\end{ormodel}
+\end{minipage}
+\par\medskip
+Objective \eqref{sum:cost}; capacity \eqref{sum:capacity}.
+\subsection*{Structured expressions and namespaced command}
+\begin{ormodel}
+  \objective[max]{\orsum{i in I} p_i x_i}
+  \constraint[for={i\in I}]{\orsum{j in J_i} a_{ij}x_j\leq b_i}
+\end{ormodel}
+The public namespaced operator also works in ordinary math:
+\[\orsum{i in I where f(i,j)>0,\;g(i,j)<=5} x_i
+  = \sum_{i\in I:\,f(i,j)>0,\;g(i,j)\leq5} x_i.\]
+\end{document}

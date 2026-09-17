@@ -9,5 +9,5 @@ stdengine = "pdftex"
 checkruns = 2
 testfiledir = "testfiles"
 typesetfiles = {"docs/orlatex.tex"}
-typesetsuppfiles = {"examples/fixtures/planning-model.tex", "examples/fixtures/responsive-model.tex", "examples/fixtures/tag-target.tex"}
+typesetsuppfiles = {"examples/fixtures/planning-model.tex", "examples/fixtures/responsive-model.tex", "examples/fixtures/tag-target.tex", "examples/fixtures/summation-model.tex"}
 typesetruns = 2
