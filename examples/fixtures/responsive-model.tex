@@ -1,0 +1,9 @@
+% Copyright 2026 Imanol Felix Supo Mamani. Licensed under LPPL 1.3c.
+% See NOTICE.md and MANIFEST.txt for work scope and maintenance.
+
+\begin{ormodel}[numbering=none]
+  \minimize 0 \\
+  \st \sum_{j\in J}a_{ij}x_{jt} <= b_{it}
+    \for{i in I,t in T} \\
+  x_{jt} >= 0 \for{j in J,t in T}
+\end{ormodel}

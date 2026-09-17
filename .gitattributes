@@ -1,0 +1,7 @@
+# Copyright 2026 Imanol Felix Supo Mamani. Licensed under LPPL 1.3c.
+# See NOTICE.md and MANIFEST.txt for work scope and maintenance.
+
+* text=auto eol=lf
+*.png binary
+*.pdf binary
+*.zip binary

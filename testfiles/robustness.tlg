@@ -1,0 +1,10 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+ERROR: orlatex/objective
+ERROR: orlatex/objective
+ERROR: orlatex/objective
+PASS: number column uses all values and row fonts
+PASS: marker column uses row fonts
+PASS: measurement does not increment real counter
+PASS: long domain wrap or explicit override is local
+PASS: long domain wrap or explicit override is local

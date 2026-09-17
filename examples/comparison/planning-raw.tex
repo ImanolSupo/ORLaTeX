@@ -1,0 +1,29 @@
+% Copyright 2026 Imanol Felix Supo Mamani. Licensed under LPPL 1.3c.
+% See NOTICE.md and MANIFEST.txt for work scope and maintenance.
+
+\noindent $J$: Jobs\par
+\noindent $T$: Periods\par
+\noindent $d_{jt}$: Demand $\forall\,j\in J,t\in T$\par
+\noindent $c_{jt},f_{jt},h_{jt}$: Production, setup, and holding costs $\forall\,j\in J,t\in T$\par
+\noindent $B_t$: Shared capacity $\forall\,t\in T$\par
+\noindent $a_j,U_{jt},S_j$: Resource use, production bound, and storage capacity $\forall\,j\in J,t\in T$\par
+\noindent $s_j^{\mathrm{init}},s_j^{\mathrm{target}}$: Initial inventory and required final inventory $\forall\,j\in J$\par
+\noindent $q_{ijt}$: Shipment cost $\forall\,i\in J,j\in J,t\in T$\par
+\noindent $x_{jt}\geq0$: Production $\forall\,j\in J,t\in T$\par
+\noindent $s_{jt}\geq0$: Ending inventory $\forall\,j\in J,t\in T$\par
+\noindent $z_{ijt}\in\mathrm Z$: Shipment quantity $\forall\,i\in J,j\in J,t\in T$\par
+\noindent $y_{jt}\in\{0,1\}$: Setup indicator $\forall\,j\in J,t\in T$\par
+\begin{align}
+  \min\quad &\begin{aligned}\sum_{j\in J,t\in T}(c_{jt}x_{jt}+f_{jt}y_{jt}+h_{jt}s_{jt})\\{}+\sum_{i\in J,j\in J,t\in T}q_{ijt}z_{ijt}\end{aligned} && \label{planning:0} \\
+  \text{s.t.}\quad &x_{jt}+s_{j,t-1}-s_{jt}=d_{jt} &&\forall\,j\in J,t\in T \label{planning:1} \\
+  &x_{jt}\leq U_{jt}y_{jt} &&\forall\,j\in J,t\in T \label{planning:2} \\
+  &\sum_{j\in J}a_j x_{jt}\leq B_t &&\forall\,t\in T \label{planning:3} \\
+  &s_{jt}\leq S_j &&\forall\,j\in J,t\in T \label{planning:4} \\
+  &s_{j0}=s_j^{\mathrm{init}} &&\forall\,j\in J \label{planning:5} \\
+  &s_{jT}\geq s_j^{\mathrm{target}} &&\forall\,j\in J \label{planning:6} \\
+  &\sum_{i\in J}z_{ijt}\leq d_{jt} &&\forall\,j\in J,t\in T \label{planning:7} \\
+  &z_{ijt}\leq U_{it}y_{it} &&\forall\,i\in J,j\in J,t\in T \label{planning:8} \\
+  &x_{jt},s_{jt}\geq0 &&\forall\,j\in J,t\in T \label{planning:9} \\
+  &z_{ijt}\in\mathrm Z &&\forall\,i\in J,j\in J,t\in T \label{planning:10} \\
+  &y_{jt}\in\{0,1\} &&\forall\,j\in J,t\in T \label{planning:11}
+\end{align}

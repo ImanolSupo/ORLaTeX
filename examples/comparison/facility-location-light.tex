@@ -1,0 +1,19 @@
+% Copyright 2026 Imanol Felix Supo Mamani. Licensed under LPPL 1.3c.
+% See NOTICE.md and MANIFEST.txt for work scope and maintenance.
+
+\begin{ornotation}
+  \set{I}{Customers}
+  \set{J}{Candidate facilities}
+  \param{d_i}{Demand}\for{i in I}
+  \param{c_{ij}}{Service cost}\for{i in I,j in J}
+  \param{f_j,U_j}{Opening cost and capacity}\for{j in J}
+  \var{x_{ij}>=0}{Quantity served}\for{i in I,j in J}
+  \var{y_j\in\{0,1\}}{Facility opened}\for{j in J}
+\end{ornotation}
+\begin{ormodel}
+  \minimize \sum_{j\in J}f_j y_j+\sum_{i\in I,j\in J}c_{ij}x_{ij} \label{facility-location:0} \\
+  \st \sum_{j\in J}x_{ij}=d_i \for{i in I} \label{facility-location:1} \\
+  \sum_{i\in I}x_{ij}<= U_j y_j \for{j in J} \label{facility-location:2} \\
+  x_{ij}>=0 \for{i in I,j in J} \label{facility-location:3} \\
+  y_j\in\{0,1\} \for{j in J} \label{facility-location:4}
+\end{ormodel}

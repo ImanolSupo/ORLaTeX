@@ -1,0 +1,50 @@
+% Copyright 2026 Imanol Felix Supo Mamani. Licensed under LPPL 1.3c.
+% See NOTICE.md and MANIFEST.txt for work scope and maintenance.
+
+\input regression-test.tex
+\documentclass{article}
+\usepackage[T1]{fontenc}
+\usepackage{orlatex}
+\def\Cost{c}
+\def\Domain{i\in I}
+\def\param{original-param}\let\savedparam\param
+\def\var{original-var}\let\savedvar\var
+\def\for{original-for}\let\savedfor\for
+\def\setdef{original-setdef}\let\savedsetdef\setdef
+\begin{document}
+\setbox0=\hbox{$x$}
+\START
+\ExplSyntaxOn
+\cs_new_protected:Npn \test_record:nnnnnnn #1#2#3#4#5#6#7
+  {\TYPE{kind=\tl_to_str:n{#1};~math=\tl_to_str:n{#2};~domain=\tl_to_str:n{#4};~type=\tl_to_str:n{#7}}
+   \str_if_eq:nnF {#1}{variable}{\TYPE{prose=\tl_to_str:n{#3}}}}
+\cs_new_eq:NN \test_render: \__orlatex_descriptions_render:
+\cs_set_protected:Npn \__orlatex_descriptions_render:
+  {\seq_map_inline:Nn \l__orlatex_records_seq {\test_record:nnnnnnn ##1}\test_render:}
+\cs_set_protected:Npn \msg_error:nnn #1#2#3 {\TYPE{ERROR:~#1/#2}}
+\ExplSyntaxOff
+\setbox0=\vbox{
+\begin{ornotation}
+  \set[size=n]{J}{Jobs}
+  \setdef{M}{(j,t)\in J\times T}{Pairs}
+  \param{c_{jt},f_{jt},h_{jt}}{Costs >= bounds, in ordinary prose}
+    \for{j in J,t in T}
+  \var{x_i >= 0}{Producción}\for{i\in I}
+  \var{n!=k,n! =k,x==y,a>=b,c<=d}{Literal factorial and equality}
+  \var{\frac{a>=b}{c<=d}+\text{literal >= in <=}+\mathrm{in}}
+    {Protected groups}
+  \var{\Cost_i <= 2}{Unexpanded macro}\for*{\Domain}
+  \param{q_{ijt}}{Tuple domain}\for{(i,j) in A,t in T}
+  \param{a_j}{Malformed domain}\for{j J}
+  \param{b_j}{Missing set}\for{j in }
+  \param{e_j}{Missing second membership}\for{j in J,k K}
+  \param{r_{ij}}{Opaque domain arguments}\for{(i,j) in \mathrm{A,B}}
+\end{ornotation}}
+\ExplSyntaxOn
+\cs_if_eq:NNTF \param\savedparam {\TYPE{PASS:~param~restored}}{\TYPE{FAIL:~param}}
+\cs_if_eq:NNTF \var\savedvar {\TYPE{PASS:~var~restored}}{\TYPE{FAIL:~var}}
+\cs_if_eq:NNTF \for\savedfor {\TYPE{PASS:~for~restored}}{\TYPE{FAIL:~for}}
+\cs_if_eq:NNTF \setdef\savedsetdef {\TYPE{PASS:~setdef~restored}}{\TYPE{FAIL:~setdef}}
+\orfor{i in I}
+\ExplSyntaxOff
+\END

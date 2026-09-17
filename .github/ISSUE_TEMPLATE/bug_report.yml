@@ -1,0 +1,32 @@
+# Copyright 2026 Imanol Felix Supo Mamani. Licensed under LPPL 1.3c.
+# See NOTICE.md and MANIFEST.txt for work scope and maintenance.
+
+name: Bug or layout problem
+description: Report a reproducible compilation or typesetting problem.
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What happened?
+      description: Describe the expected output and the actual result, including the available width.
+    validations:
+      required: true
+  - type: textarea
+    id: example
+    attributes:
+      label: Minimal complete TeX document
+      description: Include the document class and package options. Remove private data.
+      render: latex
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: ORLaTeX version, compiler, and TeX distribution/version.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Relevant log or screenshot

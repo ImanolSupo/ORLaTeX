@@ -1,0 +1,16 @@
+% Copyright 2026 Imanol Felix Supo Mamani. Licensed under LPPL 1.3c.
+% See NOTICE.md and MANIFEST.txt for work scope and maintenance.
+
+\noindent $I$: Items\par
+\noindent $B$: Candidate bins\par
+\noindent $w_i$: Item weight $\forall\,i\in I$\par
+\noindent $C$: Bin capacity\par
+\noindent $x_{ib}\in\{0,1\}$: Assignment $\forall\,i\in I,b\in B$\par
+\noindent $y_b\in\{0,1\}$: Bin used $\forall\,b\in B$\par
+\begin{align}
+  \min\quad &\sum_{b\in B}y_b && \label{bin-packing:0} \\
+  \text{s.t.}\quad &\sum_{b\in B}x_{ib}=1 &&\forall\,i\in I \label{bin-packing:1} \\
+  &\sum_{i\in I}w_i x_{ib}\leq C y_b &&\forall\,b\in B \label{bin-packing:2} \\
+  &x_{ib}\in\{0,1\} &&\forall\,i\in I,b\in B \label{bin-packing:3} \\
+  &y_b\in\{0,1\} &&\forall\,b\in B \label{bin-packing:4}
+\end{align}

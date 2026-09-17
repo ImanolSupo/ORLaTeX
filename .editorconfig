@@ -1,0 +1,18 @@
+# Copyright 2026 Imanol Felix Supo Mamani. Licensed under LPPL 1.3c.
+# See NOTICE.md and MANIFEST.txt for work scope and maintenance.
+
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.py]
+indent_style = space
+indent_size = 4
+
+[*.{yml,yaml,json}]
+indent_style = space
+indent_size = 2

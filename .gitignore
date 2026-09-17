@@ -1,0 +1,16 @@
+# Copyright 2026 Imanol Felix Supo Mamani. Licensed under LPPL 1.3c.
+# See NOTICE.md and MANIFEST.txt for work scope and maintenance.
+
+/build/
+/output/
+/tmp/
+/.tex-cache/
+/.ocs/
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+__pycache__/
+*.pyc
+/LOCAL-REVIEW.md

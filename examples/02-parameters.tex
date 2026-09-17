@@ -1,0 +1,15 @@
+% Copyright 2026 Imanol Felix Supo Mamani. Licensed under LPPL 1.3c.
+% See NOTICE.md and MANIFEST.txt for work scope and maintenance.
+
+\documentclass{article}
+\usepackage{orlatex}
+\begin{document}
+\section*{Parameters}
+\begin{orparameters}
+  \parameter{B}{Total budget}
+  \parameter[for={i\in\mathcal I}]{d_i}{Demand at customer $i$}
+  \parameter[for={(i,j)\in\mathcal A}]{c_{ij}}{Transportation cost}
+  \parameter[for={i\in\mathcal I,\ t\in\mathcal T,\ \omega\in\Omega}]{a_{it\omega}}
+    {Scenario-dependent resource consumption}
+\end{orparameters}
+\end{document}

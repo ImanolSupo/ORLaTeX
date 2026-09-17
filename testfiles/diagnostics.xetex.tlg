@@ -1,0 +1,93 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+ERROR: orlatex/context
+ERROR: orlatex/nested-style
+ERROR: orlatex/set-conflict
+WARNING: orlatex/empty
+ERROR: orlatex/style
+ERROR: orlatex/objective
+ERROR: orlatex/unnumbered
+ERROR: orlatex/unnumbered
+ERROR: orlatex/row-label
+ERROR: orlatex/option
+ERROR: orlatex/dimension
+ERROR: orlatex/dimension
+ERROR: orlatex/option
+ERROR: orlatex/objective
+ERROR: orlatex/objective
+ERROR: orlatex/objective
+WARNING: orlatex/overflow
+Overfull \hbox (140.79247pt too wide) detected at line 36
+[] 
+\hbox(8.39996+8.0333)x71.38882
+.\hbox(8.39996+8.0333)x212.18129
+..\mathon
+..\hbox(0.0+0.0)x0.0
+..\vbox(8.39996+8.0333)x212.18129
+...\hbox(8.39996+8.0333)x212.18129
+....\glue(\tabskip) 0.0
+....\hbox(8.39996+8.0333)x212.18129
+.....\glue 0.0 plus 1.0fil
+.....\hbox(8.39996+3.60004)x0.0
+......\vbox(8.39996+3.60004)x0.0
+.......\kern 0.0
+.......\hbox(8.39996+3.60004)x0.0
+........\rule(8.39996+3.60004)x0.0
+.....\mathon
+.....\hbox(6.94+8.0333)x212.18129
+......\vbox(5.83333+8.0333)x47.54143
+.......\vbox(5.83333+8.0333)x47.54143
+........\hbox(5.83333+0.83333)x47.54143
+.........\glue(\tabskip) 0.0
+.........\hbox(5.83333+0.83333)x47.54143
+..........\mathon
+..........\glue 0.0 plus 1.0fil
+..........\hbox(5.83333+0.83333)x47.54143
+...........\OML/cmm/m/it/10 x
+...........\glue(\medmuskip) 2.22217 plus 1.11108 minus 2.22217
+...........\OT1/cmr/m/n/10 +
+...........\glue(\medmuskip) 2.22217 plus 1.11108 minus 2.22217
+...........\hbox(4.44444+0.0)x11.66661
+............\OMS/cmsy/m/n/10 ^^A
+............\glue(\thinmuskip) 1.66663
+............\OMS/cmsy/m/n/10 ^^A
+............\glue(\thinmuskip) 1.66663
+............\OMS/cmsy/m/n/10 ^^A
+...........\glue(\medmuskip) 2.22217 plus 1.11108 minus 2.22217
+...........\OT1/cmr/m/n/10 +
+...........\glue(\medmuskip) 2.22217 plus 1.11108 minus 2.22217
+...........\OML/cmm/m/it/10 x
+..........\glue 0.0 plus 1.0fil
+..........\mathoff
+.........\glue(\tabskip) 0.0
+........\kern 3.0
+........\hbox(1.19997+0.0)x47.54143
+.........\glue(\tabskip) 0.0
+.........\hbox(1.19997+0.0)x47.54143, glue set 14.77063fill
+..........\mathon
+..........\OMX/cmex/m/n/10 |
+..........\leaders 0.0 plus 1.0fill
+...........\rule(1.19997+0.0)x0.4
+..........\OMX/cmex/m/n/10 {
+..........\OMX/cmex/m/n/10 z
+..........\leaders 0.0 plus 1.0fill
+...........\rule(1.19997+0.0)x0.4
+..........\OMX/cmex/m/n/10 }
+..........\mathoff
+.........\glue(\tabskip) 0.0
+........\kern 3.0
+......\glue(\thinmuskip) 1.66663
+......\hbox(0.0+1.37999)x7.5
+.......\hbox(0.0+1.37999)x7.5
+........\TU/lmr/m/n/10 _
+......\hbox(6.94+2.04999)x137.14
+.......\hbox(6.94+2.04999)x137.14
+........\TU/lmr/m/n/10 deliberatelyover-wideexpression
+......\glue(\thickmuskip) 2.77771 plus 2.77771
+......\OMS/cmsy/m/n/10 ^^T
+......\glue(\thickmuskip) 2.77771 plus 2.77771
+......\OT1/cmr/m/n/10 1
+.....\mathoff
+....\glue(\tabskip) 0.0
+..\mathoff
+.\glue 0.0 plus 1.0fil

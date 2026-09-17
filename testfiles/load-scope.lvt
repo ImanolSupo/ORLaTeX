@@ -1,0 +1,55 @@
+% Copyright 2026 Imanol Felix Supo Mamani. Licensed under LPPL 1.3c.
+% See NOTICE.md and MANIFEST.txt for work scope and maintenance.
+
+\input regression-test.tex
+\documentclass{article}
+\usepackage{ortex}
+\def\set{original-set}
+\def\parameter{original-parameter}
+\def\variable{original-variable}
+\def\objective{original-objective}
+\def\constraint{original-constraint}
+\let\savedset\set
+\let\savedparameter\parameter
+\let\savedvariable\variable
+\let\savedobjective\objective
+\let\savedconstraint\constraint
+\begin{document}
+\setbox0=\hbox{$x$}
+\START
+\ExplSyntaxOn
+\cs_new_protected:Npn \test_assert:nn #1#2
+  {\bool_if:nTF {#2}{\TYPE{PASS:~#1}}{\TYPE{FAIL:~#1}}}
+\tl_new:N \l_test_state_tl
+\tl_set:Nx \l_test_state_tl
+  {\fontname\font/\the\jot/\the\abovedisplayskip/\the\belowdisplayskip/
+   \the\linewidth/\the\textwidth/\the\parindent/\the\mathsurround/
+   \the\baselineskip/\the\leftskip/\the\rightskip/\fontname\textfont2}
+\setbox0=\vbox{
+  \begin{orsets}[font-size=small]\set{I}{Sites.}\end{orsets}
+  \begin{orparameters}\parameter[for={i\in I}]{c_i}{Cost.}\end{orparameters}
+  \begin{orvariables}\variable[type=binary]{y}{Setup.}\end{orvariables}
+  \begin{ormodel}[font-size=small,extend-left=2mm,extend-right=2mm,density=dense]
+    \test_assert:nn {local~objective~alias}{\cs_if_eq_p:NN \objective\orobjective}
+    \test_assert:nn {local~constraint~alias}{\cs_if_eq_p:NN \constraint\orconstraint}
+    \objective[min]{x}\constraint{x\geq0}
+  \end{ormodel}
+}
+\test_assert:nn {set~restored}{\cs_if_eq_p:NN \set\savedset}
+\test_assert:nn {parameter~restored}{\cs_if_eq_p:NN \parameter\savedparameter}
+\test_assert:nn {variable~restored}{\cs_if_eq_p:NN \variable\savedvariable}
+\test_assert:nn {objective~restored}{\cs_if_eq_p:NN \objective\savedobjective}
+\test_assert:nn {constraint~restored}{\cs_if_eq_p:NN \constraint\savedconstraint}
+% NFSS selects math fonts lazily; the next math must use the restored size.
+\setbox0=\hbox{$x$}
+\tl_set:Nx \l_tmpa_tl
+  {\fontname\font/\the\jot/\the\abovedisplayskip/\the\belowdisplayskip/
+   \the\linewidth/\the\textwidth/\the\parindent/\the\mathsurround/
+   \the\baselineskip/\the\leftskip/\the\rightskip/\fontname\textfont2}
+\test_assert:nn {surrounding~state~restored}{\tl_if_eq_p:NN \l_test_state_tl\l_tmpa_tl}
+\test_assert:nn {equation~counter~after~model}{\int_compare_p:n {\value{equation}=2}}
+\setbox0=\vbox{\begin{equation}a=b\end{equation}
+  \begin{align}c&=d\\e&=f\end{align}}
+\test_assert:nn {ordinary~equation~and~align}{\int_compare_p:n {\value{equation}=5}}
+\ExplSyntaxOff
+\END

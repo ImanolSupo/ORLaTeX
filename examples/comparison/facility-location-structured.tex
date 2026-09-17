@@ -1,0 +1,23 @@
+% Copyright 2026 Imanol Felix Supo Mamani. Licensed under LPPL 1.3c.
+% See NOTICE.md and MANIFEST.txt for work scope and maintenance.
+
+\begin{orsets}
+  \set{I}{Customers}
+  \set{J}{Candidate facilities}
+\end{orsets}
+\begin{orparameters}
+  \parameter[for={i\in I}]{d_i}{Demand}
+  \parameter[for={i\in I,j\in J}]{c_{ij}}{Service cost}
+  \parameter[for={j\in J}]{f_j,U_j}{Opening cost and capacity}
+\end{orparameters}
+\begin{orvariables}
+  \variable[type=nonnegative,for={i\in I,j\in J}]{x_{ij}}{Quantity served}
+  \variable[type=binary,for={j\in J}]{y_j}{Facility opened}
+\end{orvariables}
+\begin{ormodel}
+  \objective[min,label=facility-location:0]{\sum_{j\in J}f_j y_j+\sum_{i\in I,j\in J}c_{ij}x_{ij}}
+  \constraint[label=facility-location:1,for={i\in I}]{\sum_{j\in J}x_{ij}=d_i}
+  \constraint[label=facility-location:2,for={j\in J}]{\sum_{i\in I}x_{ij}\leq U_j y_j}
+  \constraint[label=facility-location:3,for={i\in I,j\in J}]{x_{ij}\geq0}
+  \constraint[label=facility-location:4,for={j\in J}]{y_j\in\{0,1\}}
+\end{ormodel}

@@ -1,0 +1,30 @@
+% Copyright 2026 Imanol Felix Supo Mamani. Licensed under LPPL 1.3c.
+% See NOTICE.md and MANIFEST.txt for work scope and maintenance.
+
+\begin{orsets}
+  \set[size=n]{\mathcal I}{Production sites and destinations}
+  \set[size=T]{\mathcal T}{Planning periods}
+  \set[definition={(i,t):i\in\mathcal I,\ t\in\mathcal T}]{\mathcal M}
+    {Site-period pairs}
+  \set[definition={(i,j,t):r_{ij}=1,\ t\in\mathcal T}]{\mathcal A}
+    {Feasible shipment arcs by period}
+\end{orsets}
+\begin{orparameters}
+  \parameter[for={(i,t)\in\mathcal M}]{d_{it}}{Demand}
+  \parameter[for={(i,t)\in\mathcal M}]{c_{it},f_{it},h_{it}}
+    {Production, setup, and holding costs}
+  \parameter[for={(i,t)\in\mathcal M}]{U_{it}}{Production upper bound}
+  \parameter[for={t\in\mathcal T}]{B_t}{Shared resource capacity}
+  \parameter[for={i\in\mathcal I}]{a_i,S_i}
+    {Resource use per unit and storage capacity}
+  \parameter[for={(j,t)\in\mathcal M}]{D_{jt}}{Inbound shipping capacity}
+  \parameter[for={(i,j,t)\in\mathcal A}]{q_{ijt}}{Unit shipment cost}
+  \parameter[for={i\in\mathcal I}]{s_i^{\mathrm{init}},s_i^{\mathrm{target}}}
+    {Initial inventory and required final inventory}
+\end{orparameters}
+\begin{orvariables}
+  \variable[type=nonnegative,for={(i,t)\in\mathcal M}]{x_{it}}{Production}
+  \variable[type=nonnegative,for={(i,t)\in\mathcal M}]{s_{it}}{Ending inventory}
+  \variable[type=integer,for={(i,j,t)\in\mathcal A}]{z_{ijt}}{Shipment quantity}
+  \variable[type=binary,for={(i,t)\in\mathcal M}]{y_{it}}{Setup indicator}
+\end{orvariables}

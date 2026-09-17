@@ -1,0 +1,15 @@
+{
+  "inputs": {
+    "orlatex.sty": "f934460f449fb2a0ab8dafad0d952949b0ecdfcf1b9ab53e8c404376797d5dc2",
+    "orlatex-input.code.tex": "95f41948de2f7466aa170c8b873e1c42ab4f858886f71cca3006f7410a5665f9",
+    "docs/orlatex.tex": "e0b8b25cb44e9bd5ea0baecbfbda7156cf743ff5dcb4eceb6dea0ca44850a8aa",
+    "docs/preview.tex": "ea62b649592574215084826da7905aa85bc9f82a3cbb280168bd2f3c042a6cc4",
+    "examples/fixtures/planning-model.tex": "a540f90d9e5dc966f9da746ec6d81172ae2af1e98873f2eb9d3e1d5f99666f1b",
+    "examples/fixtures/responsive-model.tex": "fc7e8f3ab70a614edd8d698688f642a866d480fd8d8a75272152bb6985a821e5",
+    "scripts/prepare_assets.py": "6bc2f290ffbe3537be91f3bbf1c68e6bc731ad0ff2055eeb8902d3dd3d328c2c"
+  },
+  "assets": {
+    "docs/orlatex.pdf": "731f0ed58420d1d107ed746da9431b2e83446d9703dcf67439539daa40095969",
+    "docs/images/quickstart.png": "ea96ca4bd39443a5e769d876e4ba814be1c36fd9c216266aae874b5fd358eb8c"
+  }
+}

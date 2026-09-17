@@ -1,0 +1,17 @@
+% Copyright 2026 Imanol Felix Supo Mamani. Licensed under LPPL 1.3c.
+% See NOTICE.md and MANIFEST.txt for work scope and maintenance.
+
+\documentclass{article}
+\usepackage{orlatex}
+\begin{document}
+Text before the model.
+\begin{ormodel}[density=compact,font-size=small,row-gap=2pt,
+  space-before=3pt,space-after=3pt,extend-left=5mm,extend-right=5mm,
+  subject-to={s.a},numbering=model,title={Modelo compacto},label=mod:compact]
+  \objective[max]{\sum_{i\in\mathcal I}\pi_i x_i}
+  \constraint[for={i\in\mathcal I},domain-position=below]{x_i\leq u_i}
+  \constraint{\sum_{i\in\mathcal I}a_i x_i\leq B}
+\end{ormodel}
+Text after model~\eqref{mod:compact} has normal size and margins.
+\begin{align} a&=b+c\\ d&=e+f. \end{align}
+\end{document}

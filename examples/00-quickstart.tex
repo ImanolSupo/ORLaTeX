@@ -1,0 +1,18 @@
+% Copyright 2026 Imanol Felix Supo Mamani. Licensed under LPPL 1.3c.
+% See NOTICE.md and MANIFEST.txt for work scope and maintenance.
+
+\documentclass{article}
+\usepackage{orlatex}
+\begin{document}
+\begin{ornotation}
+  \set[size=n]{I}{Products}
+  \param{c_i}{Unit profit}\for{i in I}
+  \param{u_i}{Capacity}\for{i in I}
+  \var{x_i >= 0}{Production}\for{i in I}
+\end{ornotation}
+\begin{ormodel}
+  \maximize \sum_{i\in I} c_i x_i \\
+  \st x_i <= u_i \for{i in I} \label{capacity}
+\end{ormodel}
+Capacity is respected by constraint~\eqref{capacity}.
+\end{document}

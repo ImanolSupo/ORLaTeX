@@ -1,0 +1,31 @@
+% Copyright 2026 Imanol Felix Supo Mamani. Licensed under LPPL 1.3c.
+% See NOTICE.md and MANIFEST.txt for work scope and maintenance.
+
+\begin{ornotation}
+  \set{J}{Jobs}
+  \set{T}{Periods}
+  \param{d_{jt}}{Demand}\for{j in J,t in T}
+  \param{c_{jt},f_{jt},h_{jt}}{Production, setup, and holding costs}\for{j in J,t in T}
+  \param{B_t}{Shared capacity}\for{t in T}
+  \param{a_j,U_{jt},S_j}{Resource use, production bound, and storage capacity}\for{j in J,t in T}
+  \param{s_j^{\mathrm{init}},s_j^{\mathrm{target}}}{Initial inventory and required final inventory}\for{j in J}
+  \param{q_{ijt}}{Shipment cost}\for{i in J,j in J,t in T}
+  \var{x_{jt}>=0}{Production}\for{j in J,t in T}
+  \var{s_{jt}>=0}{Ending inventory}\for{j in J,t in T}
+  \var{z_{ijt}\in\mathrm Z}{Shipment quantity}\for{i in J,j in J,t in T}
+  \var{y_{jt}\in\{0,1\}}{Setup indicator}\for{j in J,t in T}
+\end{ornotation}
+\begin{ormodel}
+  \minimize {\sum_{j\in J,t\in T}(c_{jt}x_{jt}+f_{jt}y_{jt}+h_{jt}s_{jt})\\{}+\sum_{i\in J,j\in J,t\in T}q_{ijt}z_{ijt}} \label{planning:0} \\
+  \st x_{jt}+s_{j,t-1}-s_{jt}=d_{jt} \for{j in J,t in T} \label{planning:1} \\
+  x_{jt}<= U_{jt}y_{jt} \for{j in J,t in T} \label{planning:2} \\
+  \sum_{j\in J}a_j x_{jt}<= B_t \for{t in T} \label{planning:3} \\
+  s_{jt}<= S_j \for{j in J,t in T} \label{planning:4} \\
+  s_{j0}=s_j^{\mathrm{init}} \for{j in J} \label{planning:5} \\
+  s_{jT}>= s_j^{\mathrm{target}} \for{j in J} \label{planning:6} \\
+  \sum_{i\in J}z_{ijt}<= d_{jt} \for{j in J,t in T} \label{planning:7} \\
+  z_{ijt}<= U_{it}y_{it} \for{i in J,j in J,t in T} \label{planning:8} \\
+  x_{jt},s_{jt}>=0 \for{j in J,t in T} \label{planning:9} \\
+  z_{ijt}\in\mathrm Z \for{i in J,j in J,t in T} \label{planning:10} \\
+  y_{jt}\in\{0,1\} \for{j in J,t in T} \label{planning:11}
+\end{ormodel}

@@ -1,0 +1,17 @@
+# Copyright 2026 Imanol Felix Supo Mamani. Licensed under LPPL 1.3c.
+# See NOTICE.md and MANIFEST.txt for work scope and maintenance.
+
+name: Feature request
+description: Describe a modeling or typesetting task that is difficult today.
+body:
+  - type: textarea
+    id: task
+    attributes:
+      label: The task and desired result
+      description: Show the source you would like to write and describe its appearance.
+    validations:
+      required: true
+  - type: textarea
+    id: workaround
+    attributes:
+      label: Current workaround

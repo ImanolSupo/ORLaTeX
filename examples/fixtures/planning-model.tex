@@ -1,0 +1,28 @@
+% Copyright 2026 Imanol Felix Supo Mamani. Licensed under LPPL 1.3c.
+% See NOTICE.md and MANIFEST.txt for work scope and maintenance.
+
+% The exact same semantic body is used in all three width contexts.
+% Explicit mathematical breaks keep the multi-term objective readable everywhere.
+\begin{ormodel}[title={Multi-period production and routing},label=mod:planning]
+  \objective[min,label=obj:planning]{
+    &\sum_{(i,t)\in\mathcal M} c_{it}x_{it}\\
+    &{}+\sum_{(i,t)\in\mathcal M} f_{it}y_{it}\\
+    &{}+\sum_{(i,j,t)\in\mathcal A} q_{ijt}z_{ijt}\\
+    &{}+\sum_{(i,t)\in\mathcal M} h_{it}s_{it}
+  }
+  \constraint[for={(i,t)\in\mathcal I\times\mathcal T},label=con:balance]{
+    x_{it}+s_{i,t-1}=d_{it}+s_{it}}
+  \constraint[for={i\in\mathcal I,\ t\in\mathcal T}]{x_{it}\leq U_{it}y_{it}}
+  \constraint[for={t\in\mathcal T}]{
+    \sum_{i\in\mathcal I}a_i x_{it}\leq B_t}
+  \constraint[for={(i,t)\in\mathcal M}]{
+    \sum_{j:(i,j,t)\in\mathcal A}z_{ijt}=x_{it}}
+  \constraint[for={(j,t)\in\mathcal M}]{
+    \sum_{i:(i,j,t)\in\mathcal A}z_{ijt}\leq D_{jt}}
+  \constraint[for={i\in\mathcal I}]{s_{i0}=s_i^{\mathrm{init}}}
+  \constraint[for={i\in\mathcal I}]{s_{iT}\geq s_i^{\mathrm{target}}}
+  \constraint[for={(i,t)\in\mathcal M}]{s_{it}\leq S_i}
+  \constraint[for={(i,t)\in\mathcal M}]{x_{it},s_{it}\geq0}
+  \constraint[for={(i,j,t)\in\mathcal A}]{z_{ijt}\in\mathbf Z_{\geq0}}
+  \constraint[for={(i,t)\in\mathcal M}]{y_{it}\in\{0,1\}}
+\end{ormodel}

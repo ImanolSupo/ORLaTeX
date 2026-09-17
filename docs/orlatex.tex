@@ -1,0 +1,511 @@
+% Copyright 2026 Imanol Felix Supo Mamani. Licensed under LPPL 1.3c.
+% See NOTICE.md and MANIFEST.txt for work scope and maintenance.
+
+\documentclass[11pt]{article}
+\usepackage[margin=25mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{orlatex}
+\usepackage{array,longtable}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={ORLaTeX user guide: experimental version 0.1.0},
+  pdfauthor={Imanol Felix Supo Mamani},pdfsubject={Optimization model typesetting}}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{4pt}
+\raggedbottom
+\newcommand{\key}[1]{\texttt{#1}}
+\newenvironment{sourceexample}{\par\noindent\begin{minipage}{\linewidth}\small}{\end{minipage}\par}
+\newcommand{\responsiveexample}{\InputIfFileExists{examples/fixtures/responsive-model.tex}{}{\input{responsive-model.tex}}}
+\title{ORLaTeX: write the model, not the layout\\[4pt]
+  {\large Also known as ORTeX and ORmath.}}
+\author{Imanol Felix Supo Mamani}
+\date{Experimental version 0.1.0, September 16, 2026}
+\makeatletter
+\renewcommand{\maketitle}{\begin{center}
+  {\Large\@title\par}\vspace{2pt}
+  {\normalsize\@author\par}\vspace{1pt}
+  {\small\@date\par}
+\end{center}}
+\makeatother
+\begin{document}
+\maketitle
+\section{What is ORLaTeX?}
+ORLaTeX is a lightweight, width-aware toolkit for mathematical optimization
+models. Use ordinary LaTeX mathematics; let the package arrange notation,
+index domains, and equation numbers. It typesets models without solving or
+validating them. The API is provisional; start with the lightweight workflow below.
+Recommended loading: \verb|\usepackage{orlatex}|. Optional loaders: \key{ortex},
+\key{ormath}; each shares the canonical implementation.
+
+\section{Quick start}
+Copy \key{orlatex.sty} and \key{orlatex-input.code.tex} beside your document.
+Save this complete example as \key{00-quickstart.tex} and compile twice.
+Here $I$ contains $n$ products, $c_i$ is unit profit, and $u_i\geq0$ is capacity.
+\begin{sourceexample}
+\begin{verbatim}
+\documentclass{article}
+\usepackage{orlatex}
+\begin{document}
+\begin{ornotation}
+  \set[size=n]{I}{Products}
+  \param{c_i}{Unit profit}\for{i in I}
+  \param{u_i}{Capacity}\for{i in I}
+  \var{x_i >= 0}{Production}\for{i in I}
+\end{ornotation}
+\begin{ormodel}
+  \maximize \sum_{i\in I} c_i x_i \\
+  \st x_i <= u_i \for{i in I} \label{capacity}
+\end{ormodel}
+Capacity is respected by constraint~\eqref{capacity}.
+\end{document}
+\end{verbatim}
+\end{sourceexample}
+\textbf{Output.} Each product's production is bounded by its capacity.
+\begin{ornotation}
+  \set[size=n]{I}{Products}
+  \param{c_i}{Unit profit}\for{i in I}
+  \param{u_i}{Capacity}\for{i in I}
+  \var{x_i >= 0}{Production}\for{i in I}
+\end{ornotation}
+\begin{ormodel}
+  \maximize \sum_{i\in I} c_i x_i \\
+  \st x_i <= u_i \for{i in I} \label{capacity}
+\end{ormodel}
+Capacity is respected by constraint~\eqref{capacity}.
+
+\clearpage
+\section{The recommended workflow}
+Use \key{ornotation} for definitions, then \key{ormodel} for the objective and
+constraints. Short commands are local to those environments. No layout options
+are needed for the default workflow.
+
+\subsection{Extend the notation}
+Continuing the quick start, let $K$ contain $m$ machines. A defined set can hold
+pairs rather than consecutive indices; give its mathematical definition directly.
+\begin{sourceexample}
+\begin{verbatim}
+\begin{ornotation}
+  \set[size=m]{K}{Machines}
+  \setdef{A}{(i,k)\in I\times K}{Product-machine pairs}
+  \param{a_{ik}}{Processing time}\for{(i,k) in A}
+  \var{z_{ik}\in\{0,1\}}{Assignment}\for{(i,k) in A}
+\end{ornotation}
+\end{verbatim}
+\end{sourceexample}
+\begin{ornotation}
+  \set[size=m]{K}{Machines}
+  \setdef{A}{(i,k)\in I\times K}{Product-machine pairs}
+  \param{a_{ik}}{Processing time}\for{(i,k) in A}
+  \var{z_{ik}\in\{0,1\}}{Assignment}\for{(i,k) in A}
+\end{ornotation}
+
+\subsection{Choose the objective sense and write rows}
+Minimizing negative profit gives the same optimum as maximizing profit. Use
+\verb|\minimize| with a minus sign; the capacity constraint stays unchanged.
+\begin{sourceexample}
+\begin{verbatim}
+\begin{ormodel}
+  \minimize -\sum_{i\in I}c_i x_i \\
+  \st x_i <= u_i \for{i in I} \label{capacity-min}
+\end{ormodel}
+Capacity constraint:~\eqref{capacity-min}.
+\end{verbatim}
+\end{sourceexample}
+\begin{ormodel}
+  \minimize -\sum_{i\in I}c_i x_i \\
+  \st x_i <= u_i \for{i in I} \label{capacity-min}
+\end{ormodel}
+Capacity constraint:~\eqref{capacity-min}.
+
+\subsection{The commands to remember}
+\par\noindent\begin{tabular}{@{}l>{\raggedright\arraybackslash}p{.63\linewidth}@{}}
+\verb|\set| / \verb|\setdef| & Name a set or give its definition.\\
+\verb|\param| / \verb|\var| & Describe a parameter or complete variable declaration.\\
+\verb|\for| & Attach an index domain, such as \verb|i in I|.\\
+\verb|\minimize| / \verb|\maximize| & Begin the objective.\\
+\verb|\st| & Introduce the constraints; \verb|\\| separates rows.
+\end{tabular}\par
+Use ordinary LaTeX for mathematics. This is the complete lightweight workflow;
+customization and the structured API are optional.
+
+\clearpage
+\section{Compact notation}
+\subsection{Sets}
+Inside \key{ornotation}, use \verb|\set[options]{symbol}{description}|.
+A plain set preserves your symbol without inventing members. Select at most one
+representation: \key{size}, \key{elements}, or \key{definition} (all empty by default).
+\verb|\setdef{symbol}{definition}{description}| is a direct defined-set form.
+\begin{sourceexample}
+\begin{verbatim}
+\begin{ornotation}
+  \set{C}{Customers with arbitrary identifiers}
+  \set[size=n]{I}{Consecutive product indices}
+  \set[elements={A,B,C}]{H}{Harvest types}
+  \setdef{M}{(i,t)\in I\times T}{Product-period pairs}
+\end{ornotation}
+\end{verbatim}
+\end{sourceexample}
+Here $T$ denotes the planning-period set; define it in your application's notation.
+\key{size=|C|} explicitly requests an enumeration ending at $|C|$.
+
+\subsection{Parameters and variables}
+Use \verb|\param{math}{description}| and \verb|\var{math}{description}|.
+Descriptions are ordinary text and can contain inline mathematics. Group related
+symbols when one description is clearer. A variable is the complete declaration
+you supply: bounds and domains are explicit, with no implicit variable type.
+\begin{sourceexample}
+\begin{verbatim}
+\begin{ornotation}
+  \set[size=H]{T}{Periods}
+  \param{c_{it},f_{it},h_{it}}{Production, setup, and holding costs}
+    \for{i in I,t in T}
+  \var{x_{it} >= 0}{Production}\for{i in I,t in T}
+  \var{y_{it}\in\{0,1\}}{Setup indicator}\for{i in I,t in T}
+\end{ornotation}
+\end{verbatim}
+\end{sourceexample}
+
+\subsection{Index domains with \texorpdfstring{\texttt{\string\for}}{for}}
+Attach \verb|\for{i in I,t in T}| to the preceding declaration or model row.
+Native membership, such as \verb|\for{i\in I,t\in T}|, works too.
+Tuple memberships are supported. For arbitrary mathematical conditions, use
+\verb|\for*{t>0}|; the starred form renders raw mathematics without membership parsing.
+
+\subsection{Controlled shorthand}
+\par\noindent\begin{tabular}{@{}ll@{}}
+\textbf{Input} & \textbf{Rendered meaning}\\
+\verb|x >= 0| & $x\geq0$\\
+\verb|x <= U| & $x\leq U$\\
+\verb|\for{i in I}| & $\forall\,i\in I$\\
+\verb|\for{i in I,j in J}| & $\forall\,i\in I,j\in J$\\
+\verb|\for{(i,j) in A}| & $\forall\,(i,j)\in A$
+\end{tabular}\par
+Inequality shorthand applies at the top level in raw variables and lightweight
+model rows; \key{in} applies only inside unstarred \verb|\for|. It is local and
+preserves ordinary LaTeX. Write native operators inside braced groups or macro
+arguments. There is no \verb|!=| or \verb|==| shorthand: use \verb|\neq| and
+\verb|=|. In particular, \verb|n!=k| keeps factorial followed by equality.
+
+\clearpage
+\section{Models}
+\subsection{Objectives and constraints}
+For a minimum-cost variant, let $p_i\geq0$ be unit cost and $d_i\geq0$
+required production. Keep $x_i\geq0$ as in the quick start.
+Begin literally with \verb|\minimize| or \verb|\maximize|. Exactly one objective
+is required. Put it first, then the constraints. Use explicit \verb|\\| between
+rows; blank lines are whitespace. \verb|\st| introduces constraints;
+\verb|\subjectto| is its longer synonym. \verb|\for| supplies the index domain.
+\begin{sourceexample}
+\begin{verbatim}
+\begin{ormodel}
+  \minimize \sum_{i\in I}p_i x_i \label{cost} \\
+  \st x_i >= d_i \for{i in I} \label{minimum} \\
+  x_i >= 0 \for{i in I} \notag
+\end{ormodel}
+\end{verbatim}
+\end{sourceexample}
+\begin{ormodel}
+  \minimize \sum_{i\in I}p_i x_i \label{cost} \\
+  \st x_i >= d_i \for{i in I} \label{minimum} \\
+  x_i >= 0 \for{i in I} \notag
+\end{ormodel}
+
+\subsection{Labels and references}
+Use ordinary top-level \verb|\label|, then \verb|\ref| or \verb|\eqref| in text.
+The objective is~\eqref{cost}; the minimum-production constraint is~\eqref{minimum}.
+Compile twice. \verb|\notag| suppresses one row's number and counter increment;
+that row cannot carry a label. Definitions in \key{ornotation} have no equation
+number and cannot carry labels.
+
+\par\noindent\begin{tabular}{@{}l>{\raggedright\arraybackslash}p{.61\linewidth}@{}}
+\key{numbering=rows} & Default: one number per numbered row; row labels allowed.\\
+\key{numbering=model} & One number beside the first row; use only an environment label.\\
+\key{numbering=none} & No counter increment; labels are rejected.
+\end{tabular}\par
+With row numbering, an environment label refers to the first numbered row.
+Do not combine \verb|\notag| with \key{numbering=model}.
+
+\subsection{Long expressions and manual breaks}
+Protect an internally multiline expression with one outer brace group. The
+internal \verb|&| and \verb|\\| then reach amsmath unchanged; the following
+outer \verb|\\| still separates model rows. These are authored breaks.
+\begin{sourceexample}
+\begin{verbatim}
+\begin{ormodel}
+  \minimize {&\sum_{i\in I}p_i x_i\\
+             &{}+\sum_{k\in K}f_k y_k} \\
+  \st x_i >= 0 \for{i in I}
+\end{ormodel}
+\end{verbatim}
+\end{sourceexample}
+Here $f_k,y_k$ are machine setup costs and indicators. Use \verb|{}+| or
+\verb|{}-| to preserve binary-operator spacing on a continuation line.
+ORLaTeX does not automatically split arbitrary mathematical expressions.
+
+\clearpage
+\section{Responsive layout}
+The same source adapts to the surrounding \verb|\linewidth|. This feasibility
+model has activities $J$, resource constraints $I$, periods $T$, resource usage
+$a_{ij}$, and capacities $b_{it}$. The constant objective asks only for feasibility.
+\begin{sourceexample}
+\begin{verbatim}
+\begin{ormodel}[numbering=none]
+  \minimize 0 \\
+  \st \sum_{j\in J}a_{ij}x_{jt} <= b_{it}
+    \for{i in I,t in T} \\
+  x_{jt} >= 0 \for{j in J,t in T}
+\end{ormodel}
+\end{verbatim}
+\end{sourceexample}
+\textbf{Wide output}
+\responsiveexample
+\textbf{Narrow output (145pt local width)}
+\par\noindent\begin{minipage}{145pt}
+\responsiveexample
+\end{minipage}\par
+Both outputs read the identical fixture. The long capacity row needs its domain
+below; the shorter nonnegativity row can retain its domain inline. Neither the
+mathematics nor the font size changes.
+
+\subsection{What the defaults do}
+Notation and models begin at the local left edge. Each definition keeps its
+mathematical declaration, colon, description, and domain on one line when they
+fit. Safe gaps decrease before long descriptions wrap with hanging indentation;
+domains move below only when necessary. Short rows stay compact beside long rows.
+No automatic math-font styling, font shrinking, or margin invasion occurs.
+User punctuation remains literal; no period is inserted before the domain.
+
+\subsection{Where width adaptation stops}
+The model renderer measures expressions and index domains and reserves marker
+and equation-number space. It adapts component placement, without inferring
+mathematics or scaling boxes. Long unbreakable expressions still need authored
+breaks. A multiline row is indivisible and cannot split across pages.
+
+\clearpage
+\section{Customization and styles}
+Begin with the defaults. For repeated visual choices, define a style and select
+it on an environment. This complete fragment uses the same lightweight rows.
+\begin{sourceexample}
+\begin{verbatim}
+\orlatexstyle{paper}{density=compact,row-gap=1.5pt}
+\begin{ormodel}[style=paper]
+  \minimize \sum_{i\in I}p_i x_i \\
+  \st x_i >= d_i \for{i in I}
+\end{ormodel}
+\end{verbatim}
+\end{sourceexample}
+\verb|\orlatexsetup{density=normal}| changes document defaults. Setup and style
+definitions follow TeX grouping: top-level definitions persist, grouped ones
+remain local. Styles contain visual keys and cannot select another \key{style}.
+The precedence is element options, environment options, named style, global
+setup, then defaults. Within a layer, explicit spacing overrides density,
+regardless of key order.
+
+\subsection{Option reference}
+Defaults below describe the compact preset. All environments accept visual keys,
+\key{style}, and \key{title}. Model-only keys are identified explicitly.
+Dimensions must be nonnegative TeX dimensions.
+\begingroup\small
+\setlength{\LTleft}{0pt}\setlength{\LTright}{\fill}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{.21\linewidth}>{\raggedright\arraybackslash}p{.25\linewidth}>{\raggedright\arraybackslash}p{.13\linewidth}>{\raggedright\arraybackslash}p{.33\linewidth}@{}}
+\textbf{Option} & \textbf{Accepted values} & \textbf{Default} & \textbf{Meaning}\\\hline
+\endfirsthead
+\textbf{Option} & \textbf{Accepted values} & \textbf{Default} & \textbf{Meaning}\\\hline
+\endhead
+\key{layout} & auto, wide, stacked & auto & Automatic placement or explicit component layout.\\
+\key{domain-position} & auto, right, below & auto & Domain placement; forced right can overflow a narrow model.\\
+\key{font-size} & auto, normal, small, footnotesize, scriptsize & auto & Inherit the font size or explicitly select one.\\
+\key{density} & relaxed, normal, compact, dense & compact & Set row, outer, and domain spacing together.\\
+\key{row-gap} & dimension & 2pt & Additional space after each row.\\
+\key{space-before} & dimension & 4pt & Vertical space before a block.\\
+\key{space-after} & dimension & 4pt & Vertical space after a block.\\
+\key{domain-gap} & dimension & 8pt & Model fit gap and notation prose-domain gap.\\
+\key{extend-left} & dimension & 0pt & Explicit width into the left margin.\\
+\key{extend-right} & dimension & 0pt & Explicit width into the right margin.\\
+\key{style} & defined style name & empty & Apply a named visual style.\\
+\key{title} & text & empty & Add a block title.\\
+\key{numbering} & rows, model, none & rows & Model equation-number policy.\\
+\key{label} & label key & empty & Model environment reference.\\
+\key{subject-to} & text & s.t. & Model constraint marker; e.g. \key{\{s.a.\}}.
+\end{longtable}
+\endgroup
+
+\clearpage
+\subsection{Spacing presets and placement details}
+These values are reference information; ordinary writing needs no spacing setup.
+\par\noindent\begin{tabular}{@{}lrrrr@{}}
+\textbf{Density} & \textbf{Row gap} & \textbf{Before} & \textbf{After} & \textbf{Domain gap}\\
+relaxed & 7pt & 12pt & 12pt & 16pt\\
+normal & 4pt & 8pt & 8pt & 12pt\\
+compact & 2pt & 4pt & 4pt & 8pt\\
+dense & 1pt & 2pt & 2pt & 6pt
+\end{tabular}\par
+In notation, the default 8pt prose-domain gap may decrease to 3pt after a line
+fails to fit. The 3pt colon-prose gap may decrease to 2pt. This occurs before
+wrapping, without shrinking the mathematical font.
+
+\begin{description}
+\item[\key{layout=wide}] Model components stay side by side; notation prose
+still wraps when needed.
+\item[\key{layout=stacked}] Model domains go below their expressions;
+notation prose goes below its mathematical prefix.
+\item[\key{domain-position}] In auto/wide models, right forces a side domain;
+stacked layout takes precedence. In notation, auto/right flow with prose when
+width permits; below places the domain on a continuation line after the description.
+\end{description}
+
+\subsection{Element-level styles}
+Element-level control is available through the advanced structured API in the
+next section. Its row keys are \key{font-size}, \key{row-gap}, \key{domain-gap},
+and \key{domain-position}. A row style may contain only those four keys.
+It overrides environment values, then explicit element options override it.
+Styles never change mathematical notation or objective sense.
+
+\clearpage
+\section{Advanced structured API}
+The lightweight API is recommended for ordinary model writing. The structured
+API supplies additional metadata and element-level visual control, useful for
+advanced customization or assembled rows. Both feed the same semantic records
+and renderer where applicable; they are not separate layout engines.
+
+\key{orsets}, \key{orparameters}, and \key{orvariables} hold structured
+\verb|\set|, \verb|\parameter|, and \verb|\variable| declarations. Model rows use
+\verb|\objective| and \verb|\constraint|. Keep one model input style per environment.
+This example uses the minimum-cost variant from the models section.
+\begin{sourceexample}
+\begin{verbatim}
+\begin{orsets}
+  \set[size=n]{I}{Products}
+\end{orsets}
+\begin{orparameters}
+  \parameter[for={i\in I}]{p_i}{Unit cost}
+  \parameter[for={i\in I}]{d_i}{Required production}
+\end{orparameters}
+\begin{orvariables}
+  \variable[type=nonnegative,for={i\in I}]{x_i}{Production}
+\end{orvariables}
+\begin{ormodel}
+  \objective[min]{\sum_{i\in I}p_i x_i}
+  \constraint[for={i\in I},font-size=small]{x_i\geq d_i}
+\end{ormodel}
+\end{verbatim}
+\end{sourceexample}
+\begin{orsets}
+  \set[size=n]{I}{Products}
+\end{orsets}
+\begin{orparameters}
+  \parameter[for={i\in I}]{p_i}{Unit cost}
+  \parameter[for={i\in I}]{d_i}{Required production}
+\end{orparameters}
+\begin{orvariables}
+  \variable[type=nonnegative,for={i\in I}]{x_i}{Production}
+\end{orvariables}
+\begin{ormodel}
+  \objective[min]{\sum_{i\in I}p_i x_i}
+  \constraint[for={i\in I},font-size=small]{x_i\geq d_i}
+\end{ormodel}
+
+\clearpage
+\subsection{Structured metadata reference}
+\par\noindent\begin{tabular}{@{}l>{\raggedright\arraybackslash}p{.7\linewidth}@{}}
+\key{for} & Native mathematical index domain; empty by default.\\
+\key{label} & Model-row reference; empty by default, subject to numbering policy.\\
+\key{type} & Variable: continuous (default), nonnegative, integer, binary.\\
+\key{min} / \key{max} & Objective sense; min is the default.\\
+\key{style} & Named row style, plus explicit row keys from customization.
+\end{tabular}\par
+Structured variable types append a mathematical domain. Continuous and integer
+variables are unrestricted in sign; add nonnegativity explicitly if needed.
+The inherited upright $\mathrm R$ and $\mathrm Z$ letters require no extra math
+font package. Raw lightweight \verb|\var| never appends a type.
+
+Set representation keys \key{size}, \key{elements}, and \key{definition} have the
+same meanings as in compact notation. Model objectives and constraints accept
+\key{for}, \key{label}, and row visual keys. For example, metadata after the sense
+can be written as \verb|\objective[max,label=obj:profit]{c^T x}| inside a structured
+model. Labels on notation declarations are rejected.
+
+\subsection{Namespaced forms and scope}
+Namespaced structured commands are \verb|\orset|, \verb|\orparameter|,
+\verb|\orvariable|, \verb|\orobjective|, and \verb|\orconstraint|. Lightweight
+adapters also expose \verb|\orvar|, \verb|\orsetdef|, and \verb|\orfor| in their
+checked contexts. The short aliases exist only within their corresponding
+ORLaTeX environments; prior meanings are restored afterwards. Namespaced
+commands diagnose use outside the required context.
+
+\subsection{Package loading}
+Recommended loading remains \verb|\usepackage{orlatex}|. The compatibility
+loaders are listed below; each loads the same implementation.
+\par\noindent\begin{tabular}{@{}ll@{}}
+Recommended & \verb|\usepackage{orlatex}|\\
+Compatibility & \verb|\usepackage{ortex}|\\
+Compatibility & \verb|\usepackage{ormath}|
+\end{tabular}\par If using an alias, copy its wrapper file alongside the
+two canonical runtime files. Independent and duplicate loading are tested.
+No claim is made about CTAN availability or uniqueness of the names.
+
+\clearpage
+\section{Realistic example}
+This optional production-routing formulation combines four cost terms, inventory
+balances, conditional arc sums, shared capacity, and integer/binary decisions.
+It uses the advanced structured API just described. The repository also has
+lightweight planning examples and an API comparison using the same renderer.
+
+The set $\mathcal I$ indexes sites and destinations, $\mathcal T$ periods,
+$\mathcal M=\mathcal I\times\mathcal T$ site-period pairs, and $\mathcal A$ feasible
+shipment arcs by period. Variables $x,s,z,y$ represent production, inventory,
+shipment quantity, and setup. Parameters $c,f,q,h$ are costs; $d,U,B,a,D,S$ and
+the initial/target stock values specify demands and capacities. Full definitions
+are in \key{examples/fixtures/planning-data.tex}.
+\par\noindent\begin{minipage}{.65\linewidth}
+\InputIfFileExists{examples/fixtures/planning-model.tex}{}{\input{planning-model.tex}}
+\end{minipage}\par
+The shared body is used in \key{05-long-model.tex},\newline
+\key{06-two-column.tex}, and \key{07-narrow-layout.tex}. These tested widths
+do not certify every formulation or class.
+
+\clearpage
+\section{Engine compatibility}
+The example and regression suite has been executed under pdfLaTeX, XeLaTeX,
+and LuaLaTeX on Windows/MiKTeX. Unicode-engine smoke tests use fontspec and
+unicode-math with Latin Modern fonts. Inherited fonts and accented prose are
+covered; all fonts, publisher classes, and operating systems are not certified.
+A LaTeX kernel dated 2022-06-01 or newer is required; amsmath is the only
+external package dependency of the toolkit. The guide additionally uses
+geometry, array, longtable, fontenc, and hyperref.
+
+\section{Limitations and development status}
+Version 0.1.0 is experimental. ORLaTeX does not parse arbitrary mathematics,
+infer set membership, solve models, or validate their mathematical meaning.
+Explicit breaks are needed for some long expressions. Nested ORLaTeX
+environments, verbatim in mathematical content, and macro-generated row structure
+are unsupported. Models align expression starts rather than arbitrary relations.
+Very narrow contexts can overflow and are diagnosed.
+
+An internally multiline row cannot split across pages. Continuation titles and
+subject-to markers are not repeated on later pages. Measurement can evaluate
+material more than once: avoid global side effects, counter increments, and
+labels hidden inside mathematical groups. Use top-level lightweight labels or
+structured label keys. Braced groups are opaque to shorthand normalization;
+optional/unbraced macro arguments cannot be inferred, so use native operators
+or a protective group for literal content.
+
+\subsection{Copyright and license}
+Copyright 2026 Imanol Felix Supo Mamani. Licensed under the LaTeX Project Public
+License, version 1.3c. LPPL maintenance status: author-maintained.
+Current Maintainer: Imanol Felix Supo Mamani. See LICENSE, NOTICE.md, and
+MANIFEST.txt for the grant and work's scope. No public release has occurred.
+
+\subsection{Reproduce the checks}
+From the repository root:
+\begin{sourceexample}
+\begin{verbatim}
+l3build check
+python scripts/compile.py --engine all
+l3build doc
+python scripts/check_manual.py --engine all
+\end{verbatim}
+\end{sourceexample}
+The last command extracts and compiles the executable guide examples. Build
+commands above are shell commands, not LaTeX source. Actual results and
+verification limits are recorded in \key{TEST-RESULTS.md}.
+\end{document}

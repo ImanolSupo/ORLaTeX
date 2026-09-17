@@ -1,0 +1,16 @@
+% Copyright 2026 Imanol Felix Supo Mamani. Licensed under LPPL 1.3c.
+% See NOTICE.md and MANIFEST.txt for work scope and maintenance.
+
+\documentclass{article}
+\usepackage{orlatex}
+\begin{document}
+\section*{Sets}
+\begin{orsets}
+  \set{\mathcal C}{Customers; no assumption about their identifiers}
+  \set[size=n]{\mathcal I}{Indexed sites}
+  \set[size=|\mathcal C|]{\mathcal K}{Consecutive customer indices}
+  \set[elements={A,B,C}]{\mathcal H}{Harvest types}
+  \set[definition={(i,j)\in\mathcal I\times\mathcal I:a_{ij}=1}]{\mathcal A}
+    {Feasible arcs, with availability indicated by $a_{ij}$}
+\end{orsets}
+\end{document}

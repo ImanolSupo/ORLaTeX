@@ -1,0 +1,26 @@
+% Copyright 2026 Imanol Felix Supo Mamani. Licensed under LPPL 1.3c.
+% See NOTICE.md and MANIFEST.txt for work scope and maintenance.
+
+\documentclass{article}
+\usepackage{orlatex}
+\begin{document}
+\section*{Production planning}
+\begin{orsets}
+  \set{\mathcal I}{Products}
+\end{orsets}
+\begin{orparameters}
+  \parameter[for={i\in\mathcal I}]{c_i}{Unit contribution of product $i$}
+  \parameter[for={i\in\mathcal I}]{u_i}{Maximum demand}
+\end{orparameters}
+\begin{orvariables}
+  \variable[for={i\in\mathcal I},type=nonnegative]{x_i}{Production quantity}
+\end{orvariables}
+\begin{ormodel}[title={Production model},label=mod:production]
+  \objective[max,label=obj:profit]{\sum_{i\in\mathcal I}c_ix_i}
+  \constraint[for={i\in\mathcal I},label=con:demand]{x_i\leq u_i}
+\end{ormodel}
+Model~\eqref{mod:production} maximizes profit in~\eqref{obj:profit},
+with demand limits~\eqref{con:demand}.
+\begin{equation} E=mc^2. \end{equation}
+Surrounding text retains its original font and spacing.
+\end{document}

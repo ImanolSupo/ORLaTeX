@@ -1,0 +1,15 @@
+% Copyright 2026 Imanol Felix Supo Mamani. Licensed under LPPL 1.3c.
+% See NOTICE.md and MANIFEST.txt for work scope and maintenance.
+
+\documentclass{article}
+\usepackage{ortex}
+\orlatexsetup{density=relaxed}
+\orlatexstyle{compact-paper}{density=compact,row-gap=1.5pt,space-before=3pt}
+\orlatexstyle{detail-row}{font-size=small,domain-position=below}
+\begin{document}
+\begin{ormodel}[style=compact-paper,row-gap=3pt,title={Reusable visual styles}]
+  \objective[min]{\sum_{i\in\mathcal I}c_i x_i}
+  \constraint[style=detail-row,row-gap=4pt,for={i\in\mathcal I}]{x_i\leq u_i}
+  \constraint{\sum_{i\in\mathcal I}x_i\geq D}
+\end{ormodel}
+\end{document}

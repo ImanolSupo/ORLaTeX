@@ -1,0 +1,22 @@
+% Copyright 2026 Imanol Felix Supo Mamani. Licensed under LPPL 1.3c.
+% See NOTICE.md and MANIFEST.txt for work scope and maintenance.
+
+\begin{orsets}
+  \set{I}{Items}
+  \set{B}{Candidate bins}
+\end{orsets}
+\begin{orparameters}
+  \parameter[for={i\in I}]{w_i}{Item weight}
+  \parameter{C}{Bin capacity}
+\end{orparameters}
+\begin{orvariables}
+  \variable[type=binary,for={i\in I,b\in B}]{x_{ib}}{Assignment}
+  \variable[type=binary,for={b\in B}]{y_b}{Bin used}
+\end{orvariables}
+\begin{ormodel}
+  \objective[min,label=bin-packing:0]{\sum_{b\in B}y_b}
+  \constraint[label=bin-packing:1,for={i\in I}]{\sum_{b\in B}x_{ib}=1}
+  \constraint[label=bin-packing:2,for={b\in B}]{\sum_{i\in I}w_i x_{ib}\leq C y_b}
+  \constraint[label=bin-packing:3,for={i\in I,b\in B}]{x_{ib}\in\{0,1\}}
+  \constraint[label=bin-packing:4,for={b\in B}]{y_b\in\{0,1\}}
+\end{ormodel}

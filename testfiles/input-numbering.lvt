@@ -1,0 +1,45 @@
+% Copyright 2026 Imanol Felix Supo Mamani. Licensed under LPPL 1.3c.
+% See NOTICE.md and MANIFEST.txt for work scope and maintenance.
+
+\input regression-test.tex
+\documentclass{article}
+\usepackage{orlatex}
+\usepackage{hyperref}
+\def\minimize{original-min}\let\savedminimize\minimize
+\def\maximize{original-max}\let\savedmaximize\maximize
+\def\st{original-st}\let\savedst\st
+\begin{document}
+\START
+\ExplSyntaxOn
+\cs_new_eq:NN \test_model_row:nnnnnnn \__orlatex_model_row:nnnnnnn
+\cs_set_protected:Npn \__orlatex_model_row:nnnnnnn #1#2#3#4#5#6#7
+  {\str_if_eq:nnT {#1}{max}{\TYPE{PASS:~maximize~retains~max~sense}}
+   \test_model_row:nnnnnnn {#1}{#2}{#3}{#4}{#5}{#6}{#7}}
+\ExplSyntaxOff
+\begin{ormodel}[label=mod:light]
+  \minimize {\sum_{i\in I}x_i\\{}+\frac{a}{b}} \notag \\
+  \st x_i <= 2 \for{i in I} \label{con:light} \\
+  x_i >= 0 \for{i in I} \notag \\
+  y_i\in\{0,1\} \for{i in I} \label{con:last}
+\end{ormodel}
+\begin{ormodel}[numbering=model,label=mod:max]
+  \maximize \sum_{i\in I}x_i \\
+  \subjectto x_i <= 1 \for{i in I}
+\end{ormodel}
+\begin{ormodel}[numbering=none]
+  \minimize x \\
+  \st x >= 0 \notag
+\end{ormodel}
+\OMIT\clearpage\TIMO
+\ExplSyntaxOn
+\int_compare:nNnTF {\value{equation}}={3}
+  {\TYPE{PASS:~notag~rows~do~not~increment~counter}}{\TYPE{FAIL:~counter}}
+\TYPE{Model:~\getrefnumber{mod:light}}
+\TYPE{First~numbered~constraint:~\getrefnumber{con:light}}
+\TYPE{Last~constraint:~\getrefnumber{con:last}}
+\TYPE{Max~model:~\getrefnumber{mod:max}}
+\cs_if_eq:NNTF \minimize\savedminimize {\TYPE{PASS:~minimize~restored}}{\TYPE{FAIL:~minimize}}
+\cs_if_eq:NNTF \maximize\savedmaximize {\TYPE{PASS:~maximize~restored}}{\TYPE{FAIL:~maximize}}
+\cs_if_eq:NNTF \st\savedst {\TYPE{PASS:~st~restored}}{\TYPE{FAIL:~st}}
+\ExplSyntaxOff
+\END

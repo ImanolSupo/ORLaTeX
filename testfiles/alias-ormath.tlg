@@ -1,0 +1,15 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+PASS: one canonical model implementation
+PASS: configuration survives loading
+kind=set; math=I=\{1,2,\ldots ,n\}; domain=
+kind=set; math=A=\{(i,j)\in I\times J\}; domain=
+kind=parameter; math=c_i; domain=i\in I
+kind=variable; math=x_i \geq  0; domain=i\in I
+[1
+]
+PASS: variable alias restored
+PASS: domain alias restored
+PASS: canonical counter behavior
+objective reference=1
+capacity reference=2

@@ -1,0 +1,47 @@
+% Copyright 2026 Imanol Felix Supo Mamani. Licensed under LPPL 1.3c.
+% See NOTICE.md and MANIFEST.txt for work scope and maintenance.
+
+\input regression-test.tex
+\documentclass{article}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+\else
+  \usepackage{fontspec}
+  \IfFileExists{unicode-math.sty}{\usepackage{unicode-math}
+    \setmathfont{Latin Modern Math}}{}
+  \setmainfont{Latin Modern Roman}
+\fi
+\usepackage{orlatex}
+\begin{document}
+% Initialize the ordinary and small math sizes before the assertion log starts.
+\setbox0=\hbox{$x$}
+\begingroup\small\setbox0=\hbox{$x$}\endgroup
+\START
+\ExplSyntaxOn
+\tl_new:N \l_test_font_tl
+\tl_set:Nx \l_test_font_tl {\fontname\font}
+\setbox0=\vbox{
+\begin{orsets}\set{\mathcal I}{Producción y capacité.}\end{orsets}
+\begin{orparameters}\parameter[for={i\in\mathcal I}]{a_i}{Coût.}\end{orparameters}
+\begin{orvariables}\variable[type=binary]{y}{Decisión.}\end{orvariables}
+\begin{ormodel}[font-size=small]
+  \objective[min]{\sum _{i\in\mathcal I}a_i x_i}
+  \constraint[for={i\in\mathcal I}]{x_i\leq y}
+\end{ormodel}}
+\ExplSyntaxOff
+\setbox0=\vbox{\begin{ornotation}
+  \param{d_i}{Producción y capacité}\for{i in I}
+  \var{x_i >= 0}{Décision}\for{i in I}
+\end{ornotation}
+\begin{ormodel}[font-size=small]
+  \minimize \sum_{i\in I}d_i x_i \\
+  \st x_i <= 1 \for{i in I}
+\end{ormodel}}
+\ExplSyntaxOn
+\tl_set:Nx \l_tmpa_tl {\fontname\font}
+\tl_if_eq:NNTF \l_test_font_tl \l_tmpa_tl
+  {\TYPE{PASS:~document~font~preserved}}{\TYPE{FAIL:~document~font}}
+\TYPE{PASS:~multilingual~declarations~and~math~compiled}
+\ExplSyntaxOff
+\END

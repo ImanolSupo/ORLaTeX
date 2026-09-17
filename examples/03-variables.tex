@@ -1,0 +1,14 @@
+% Copyright 2026 Imanol Felix Supo Mamani. Licensed under LPPL 1.3c.
+% See NOTICE.md and MANIFEST.txt for work scope and maintenance.
+
+\documentclass{article}
+\usepackage{orlatex}
+\begin{document}
+\section*{Variables}
+\begin{orvariables}
+  \variable{w}{A continuous variable with unrestricted sign}
+  \variable[type=nonnegative,for={i\in\mathcal I}]{x_i}{Quantity produced}
+  \variable[type=integer,for={j\in\mathcal J}]{n_j}{Number of machines}
+  \variable[type=binary,for={j\in\mathcal J}]{y_j}{One if facility $j$ opens}
+\end{orvariables}
+\end{document}

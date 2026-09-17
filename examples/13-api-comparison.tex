@@ -1,0 +1,39 @@
+% Copyright 2026 Imanol Felix Supo Mamani. Licensed under LPPL 1.3c.
+% See NOTICE.md and MANIFEST.txt for work scope and maintenance.
+
+\documentclass{article}
+\usepackage{orlatex}
+\newcommand{\comparisoninput}[2]{%
+  \begingroup
+  \let\comparisonlabel\label
+  \renewcommand{\label}[1]{\comparisonlabel{#1:##1}}%
+  \input{examples/comparison/#2.tex}%
+  \endgroup}
+\begin{document}
+\section*{Bin packing: raw amsmath}
+\comparisoninput{raw}{bin-packing-raw}
+\clearpage
+\section*{Bin packing: structured input}
+\comparisoninput{structured}{bin-packing-structured}
+\clearpage
+\section*{Bin packing: lightweight input}
+\comparisoninput{light}{bin-packing-light}
+\clearpage
+\section*{Facility location: raw amsmath}
+\comparisoninput{raw}{facility-location-raw}
+\clearpage
+\section*{Facility location: structured input}
+\comparisoninput{structured}{facility-location-structured}
+\clearpage
+\section*{Facility location: lightweight input}
+\comparisoninput{light}{facility-location-light}
+\clearpage
+\section*{Planning: raw amsmath}
+\comparisoninput{raw}{planning-raw}
+\clearpage
+\section*{Planning: structured input}
+\comparisoninput{structured}{planning-structured}
+\clearpage
+\section*{Planning: lightweight input}
+\comparisoninput{light}{planning-light}
+\end{document}

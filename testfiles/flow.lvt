@@ -1,0 +1,32 @@
+% Copyright 2026 Imanol Felix Supo Mamani. Licensed under LPPL 1.3c.
+% See NOTICE.md and MANIFEST.txt for work scope and maintenance.
+
+\input regression-test.tex
+\documentclass{article}
+\usepackage{orlatex}
+\begin{document}
+\setbox0=\hbox{$x$}
+\START
+\ExplSyntaxOn
+\cs_new_eq:NN \test_output:nn \__orlatex_notation_output:nn
+\cs_set_protected:Npn \__orlatex_notation_output:nn #1#2
+  {\bool_if:NTF \l__orlatex_single_bool
+     {\TYPE{ROW~\int_use:N\l__orlatex_row_int :~one~line}}
+     {\TYPE{ROW~\int_use:N\l__orlatex_row_int :~wrapped}
+      \bool_if:NF \l__orlatex_stacked_bool
+        {\dim_compare:nNnTF {\l__orlatex_prefix_dim}>{0pt}
+          {\TYPE{PASS:~hanging~continuation}}{\TYPE{FAIL:~indent}}}}
+   \str_if_eq:eeTF {\use:c{f@size}}{10}
+     {\TYPE{PASS:~normal~font~retained}}{\TYPE{FAIL:~font~reduced}}
+   \test_output:nn {#1}{#2}}
+\ExplSyntaxOff
+\setbox0=\vbox{\begin{minipage}{195pt}
+\begin{ornotation}
+  \param{B_t}{Shared capacity}\for{t in T}
+  \param{c_{jt},f_{jt},h_{jt}}{Production, setup, and holding costs}\for{j in J,t in T}
+  \param{a_j}{Resource use}\for{j in J}
+  \param{s_j^{\mathrm{init}},s_j^{\mathrm{target}}}
+    {Initial inventory and required final inventory}\for{j in J}
+  \param{L}{Horizon}
+\end{ornotation}\end{minipage}}
+\END

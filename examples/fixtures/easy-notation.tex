@@ -1,0 +1,24 @@
+% Copyright 2026 Imanol Felix Supo Mamani. Licensed under LPPL 1.3c.
+% See NOTICE.md and MANIFEST.txt for work scope and maintenance.
+
+\begin{ornotation}
+  \set[size=n]{J}{Jobs}
+  \set[size=T]{T}{Periods}
+  \setdef{M}{(j,t)\in J\times T}{Job-period pairs}
+\end{ornotation}
+\begin{ornotation}
+  \param{d_{jt}}{Demand}\for{j in J,t in T}
+  \param{c_{jt},f_{jt},h_{jt}}{Production, setup, and holding costs}\for{j in J,t in T}
+  \param{B_t}{Shared capacity}\for{t in T}
+  \param{s_j^{\mathrm{init}},s_j^{\mathrm{target}}}
+    {Initial inventory and required final inventory}\for{j in J}
+  \param{u_{jt}}{Available production capacity after planned maintenance and outages}
+    \for{j in J,t in T}
+  \param{a_j}{Resource use}\for{j in J}
+  \param{L}{Planning horizon}
+\end{ornotation}
+\begin{ornotation}
+  \var{x_{jt} >= 0}{Production}\for{j in J,t in T}
+  \var{s_{jt} >= 0}{Ending inventory}\for{j in J,t in T}
+  \var{y_{jt}\in\{0,1\}}{Setup indicator}\for{j in J,t in T}
+\end{ornotation}

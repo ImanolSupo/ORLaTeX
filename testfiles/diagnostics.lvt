@@ -1,0 +1,38 @@
+% Copyright 2026 Imanol Felix Supo Mamani. Licensed under LPPL 1.3c.
+% See NOTICE.md and MANIFEST.txt for work scope and maintenance.
+
+\input regression-test.tex
+\documentclass{article}
+\usepackage{orlatex}
+\begin{document}
+\START
+\ExplSyntaxOn
+% Capture package diagnostics, retaining unexpected TeX errors in the log.
+\cs_set_protected:Npn \msg_error:nn #1#2 {\TYPE{ERROR:~#1/#2}}
+\cs_set_protected:Npn \msg_error:nnn #1#2#3 {\TYPE{ERROR:~#1/#2}}
+\cs_set_protected:Npn \msg_error:nnnn #1#2#3#4 {\TYPE{ERROR:~#1/#2}}
+\cs_set_protected:Npn \msg_warning:nnn #1#2#3 {\TYPE{WARNING:~#1/#2}}
+\orset{I}{Wrong context.}
+\orlatexstyle{nested}{style=missing}
+\setbox0=\vbox{
+\begin{orsets}\set[size=n,elements={A,B}]{I}{Invalid.}\end{orsets}
+\begin{ormodel}[style=missing]
+  \objective[min]{x}\objective[max]{y}
+\end{ormodel}
+\begin{ormodel}[numbering=none,label=mod:no]
+  \objective{x}\constraint[label=con:no]{x\geq0}
+\end{ormodel}
+\begin{ormodel}[numbering=model]
+  \objective{x}\constraint[label=con:wrong]{x\geq0}
+\end{ormodel}
+\begin{ormodel}[row-gap=-1pt]
+  \objective{x}\constraint[unknown-option=yes]{x\leq1}
+\end{ormodel}
+\begin{ormodel}\objective[maximum]{x}\end{ormodel}
+\begin{ormodel}\constraint{x\leq1}\end{ormodel}
+\begin{minipage}{100pt}
+\begin{ormodel}[numbering=none]
+  \objective{x}\constraint{\underbrace{x+\cdots+x}_{\text{deliberately over-wide expression}}\leq1}
+\end{ormodel}\end{minipage}}
+\ExplSyntaxOff
+\END

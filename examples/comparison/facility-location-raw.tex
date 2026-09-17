@@ -1,0 +1,17 @@
+% Copyright 2026 Imanol Felix Supo Mamani. Licensed under LPPL 1.3c.
+% See NOTICE.md and MANIFEST.txt for work scope and maintenance.
+
+\noindent $I$: Customers\par
+\noindent $J$: Candidate facilities\par
+\noindent $d_i$: Demand $\forall\,i\in I$\par
+\noindent $c_{ij}$: Service cost $\forall\,i\in I,j\in J$\par
+\noindent $f_j,U_j$: Opening cost and capacity $\forall\,j\in J$\par
+\noindent $x_{ij}\geq0$: Quantity served $\forall\,i\in I,j\in J$\par
+\noindent $y_j\in\{0,1\}$: Facility opened $\forall\,j\in J$\par
+\begin{align}
+  \min\quad &\sum_{j\in J}f_j y_j+\sum_{i\in I,j\in J}c_{ij}x_{ij} && \label{facility-location:0} \\
+  \text{s.t.}\quad &\sum_{j\in J}x_{ij}=d_i &&\forall\,i\in I \label{facility-location:1} \\
+  &\sum_{i\in I}x_{ij}\leq U_j y_j &&\forall\,j\in J \label{facility-location:2} \\
+  &x_{ij}\geq0 &&\forall\,i\in I,j\in J \label{facility-location:3} \\
+  &y_j\in\{0,1\} &&\forall\,j\in J \label{facility-location:4}
+\end{align}

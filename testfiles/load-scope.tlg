@@ -1,0 +1,12 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+PASS: local objective alias
+PASS: local constraint alias
+PASS: set restored
+PASS: parameter restored
+PASS: variable restored
+PASS: objective restored
+PASS: constraint restored
+PASS: surrounding state restored
+PASS: equation counter after model
+PASS: ordinary equation and align

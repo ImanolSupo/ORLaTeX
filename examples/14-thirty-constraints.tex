@@ -1,0 +1,47 @@
+% Copyright 2026 Imanol Felix Supo Mamani. Licensed under LPPL 1.3c.
+% See NOTICE.md and MANIFEST.txt for work scope and maintenance.
+
+\documentclass{article}
+\usepackage{orlatex}
+\begin{document}
+\section*{Thirty explicit constraint rows}
+Ten planning constraint families are instantiated for three periods to exercise
+long input, numbering, and pagination. In a manuscript these repeated families
+would normally be quantified over periods.
+\begin{ormodel}[title={Three-period planning},label=mod:thirty]
+  \minimize {\sum_{j\in J,t\in\{1,2,3\}}(c_{jt}x_{jt}+f_{jt}y_{jt}+h_{jt}s_{jt})
+    \\{}+\sum_{i\in J,j\in J,t\in\{1,2,3\}}q_{ijt}z_{ijt}} \label{obj:thirty} \\
+  \st x_{j1}+s_{j,0}-s_{j1}=d_{j1} \for{j in J} \label{con:thirty:1} \\
+  x_{j1} <= U_{j1}y_{j1} \for{j in J} \label{con:thirty:2} \\
+  \sum_{j\in J}a_j x_{j1} <= B_1 \label{con:thirty:3} \\
+  s_{j1} <= S_j \for{j in J} \label{con:thirty:4} \\
+  \sum_{i\in J}z_{ij1} <= d_{j1} \for{j in J} \label{con:thirty:5} \\
+  \sum_{j\in J}z_{ij1} <= x_{i1} \for{i in J} \label{con:thirty:6} \\
+  x_{j1} >= 0 \for{j in J} \label{con:thirty:7} \\
+  s_{j1} >= 0 \for{j in J} \label{con:thirty:8} \\
+  z_{ij1} >= 0 \for{i in J,j in J} \label{con:thirty:9} \\
+  y_{j1}\in\{0,1\} \for{j in J} \label{con:thirty:10} \\
+  x_{j2}+s_{j,1}-s_{j2}=d_{j2} \for{j in J} \label{con:thirty:11} \\
+  x_{j2} <= U_{j2}y_{j2} \for{j in J} \label{con:thirty:12} \\
+  \sum_{j\in J}a_j x_{j2} <= B_2 \label{con:thirty:13} \\
+  s_{j2} <= S_j \for{j in J} \label{con:thirty:14} \\
+  \sum_{i\in J}z_{ij2} <= d_{j2} \for{j in J} \label{con:thirty:15} \\
+  \sum_{j\in J}z_{ij2} <= x_{i2} \for{i in J} \label{con:thirty:16} \\
+  x_{j2} >= 0 \for{j in J} \label{con:thirty:17} \\
+  s_{j2} >= 0 \for{j in J} \label{con:thirty:18} \\
+  z_{ij2} >= 0 \for{i in J,j in J} \label{con:thirty:19} \\
+  y_{j2}\in\{0,1\} \for{j in J} \label{con:thirty:20} \\
+  x_{j3}+s_{j,2}-s_{j3}=d_{j3} \for{j in J} \label{con:thirty:21} \\
+  x_{j3} <= U_{j3}y_{j3} \for{j in J} \label{con:thirty:22} \\
+  \sum_{j\in J}a_j x_{j3} <= B_3 \label{con:thirty:23} \\
+  s_{j3} <= S_j \for{j in J} \label{con:thirty:24} \\
+  \sum_{i\in J}z_{ij3} <= d_{j3} \for{j in J} \label{con:thirty:25} \\
+  \sum_{j\in J}z_{ij3} <= x_{i3} \for{i in J} \label{con:thirty:26} \\
+  x_{j3} >= 0 \for{j in J} \label{con:thirty:27} \\
+  s_{j3} >= 0 \for{j in J} \label{con:thirty:28} \\
+  z_{ij3} >= 0 \for{i in J,j in J} \label{con:thirty:29} \\
+  y_{j3}\in\{0,1\} \for{j in J} \label{con:thirty:30}
+\end{ormodel}
+Model~\eqref{mod:thirty} starts with objective~\eqref{obj:thirty} and ends
+at constraint~\eqref{con:thirty:30}.
+\end{document}

@@ -1,0 +1,34 @@
+% Copyright 2026 Imanol Felix Supo Mamani. Licensed under LPPL 1.3c.
+% See NOTICE.md and MANIFEST.txt for work scope and maintenance.
+
+\input regression-test.tex
+\documentclass{article}
+\usepackage{orlatex}
+\usepackage{hyperref}
+\begin{document}
+\START
+\ExplSyntaxOn
+\cs_new_protected:Npn \test_equations:n #1
+  {\int_compare:nNnTF {\value{equation}}={#1}
+    {\TYPE{PASS:~equation~counter=#1}}{\TYPE{FAIL:~equation~counter}}}
+
+\begin{ormodel}[label=mod:first]
+  \objective[min,label=obj:first]{x}
+  \constraint[label=con:first]{x\leq1}
+\end{ormodel}
+\begin{ormodel}[numbering=model,label=mod:second]
+  \objective[max]{y}\constraint{y\leq2}\constraint{y\geq0}
+\end{ormodel}
+\begin{ormodel}[numbering=none]\objective{z}\constraint{z\geq0}\end{ormodel}
+\OMIT\clearpage\TIMO
+\test_equations:n{3}
+\cs_if_exist:cTF {r@mod:first}
+  {
+    \TYPE{Model:~\getrefnumber{mod:first}}
+    \TYPE{Objective:~\getrefnumber{obj:first}}
+    \TYPE{Constraint:~\getrefnumber{con:first}}
+    \TYPE{Second~model:~\getrefnumber{mod:second}}
+  }
+  {\TYPE{FAIL:~labels~missing}}
+\ExplSyntaxOff
+\END

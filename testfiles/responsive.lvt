@@ -1,0 +1,31 @@
+% Copyright 2026 Imanol Felix Supo Mamani. Licensed under LPPL 1.3c.
+% See NOTICE.md and MANIFEST.txt for work scope and maintenance.
+
+\input regression-test.tex
+\documentclass{article}
+\usepackage{orlatex}
+\begin{document}
+\START
+\ExplSyntaxOn
+\cs_new_eq:NN \test_choose_domain: \__orlatex_choose_domain:
+\cs_set_protected:Npn \__orlatex_choose_domain:
+  {\test_choose_domain:
+   \bool_if:NTF \l__orlatex_below_bool
+     {\TYPE{domain~below}}{\TYPE{domain~right}}}
+\setbox0=\vbox{
+\begin{ormodel}[numbering=none]
+  \objective[max]{x}\constraint[for={i\in I}]{x_i\leq1}
+\end{ormodel}
+\begin{minipage}{120pt}
+\begin{ormodel}[numbering=none]
+  \objective[min]{x}
+  \constraint[for={i\in I,~t\in T}]{x_{it}+s_{it}\leq u_{it}}
+\end{ormodel}\end{minipage}
+\begin{ormodel}[numbering=none,domain-position=below]
+  \objective{x}\constraint[for={i\in I}]{x_i\geq0}
+\end{ormodel}
+\begin{ormodel}[numbering=none,layout=wide]
+  \objective{x}\constraint[for={i\in I}]{x_i\geq0}
+\end{ormodel}}
+\ExplSyntaxOff
+\END

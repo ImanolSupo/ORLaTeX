@@ -1,0 +1,40 @@
+% Copyright 2026 Imanol Felix Supo Mamani. Licensed under LPPL 1.3c.
+% See NOTICE.md and MANIFEST.txt for work scope and maintenance.
+
+\input regression-test.tex
+\documentclass{article}
+\usepackage{orlatex}
+\newcommand\Cost{c}
+\begin{document}
+\START
+\ExplSyntaxOn
+\cs_new_protected:Npn \test_records:nnnnnnn #1#2#3#4#5#6#7
+  {\TYPE{kind=\tl_to_str:n{#1};~expression=\tl_to_str:n{#2};
+    ~for=\tl_to_str:n{#4};~label=\tl_to_str:n{#5};~type=\tl_to_str:n{#7}}}
+\setbox0=\vbox{
+\begin{orsets}
+  \set{\mathcal C}{Customers with arbitrary identifiers.}
+  \set[size=n]{I}{Indexed sites.}
+  \set[elements={A,B,C}]{H}{Harvest types.}
+  \set[definition={(i,j):a_{ij}=1}]{A}{Arcs with $a_{ij}=1$.}
+  \seq_map_inline:Nn \l__orlatex_records_seq {\test_records:nnnnnnn #1}
+\end{orsets}
+\begin{orparameters}
+  \parameter{B}{Budget.}
+  \parameter[for={i\in I}]{\Cost _i}{Unexpanded user notation.}
+  \seq_map_inline:Nn \l__orlatex_records_seq {\test_records:nnnnnnn #1}
+\end{orparameters}
+\begin{orvariables}
+  \variable{x}{Continuous.}
+  \variable[type=nonnegative]{s}{Stock.}
+  \variable[type=integer,for={i\in I}]{n_i}{Machines.}
+  \variable[type=binary]{y}{Setup.}
+  \seq_map_inline:Nn \l__orlatex_records_seq {\test_records:nnnnnnn #1}
+\end{orvariables}
+\begin{ormodel}
+  \objective[max,label=obj:profit]{\sum _{i\in I}\Cost _i x_i}
+  \constraint[for={(i,t)\in M},label=con:capacity]{x_{it}\leq U_{it}}
+  \seq_map_inline:Nn \l__orlatex_records_seq {\test_records:nnnnnnn #1}
+\end{ormodel}}
+\ExplSyntaxOff
+\END

@@ -1,0 +1,35 @@
+% Copyright 2026 Imanol Felix Supo Mamani. Licensed under LPPL 1.3c.
+% See NOTICE.md and MANIFEST.txt for work scope and maintenance.
+
+\begin{orsets}
+  \set{J}{Jobs}
+  \set{T}{Periods}
+\end{orsets}
+\begin{orparameters}
+  \parameter[for={j\in J,t\in T}]{d_{jt}}{Demand}
+  \parameter[for={j\in J,t\in T}]{c_{jt},f_{jt},h_{jt}}{Production, setup, and holding costs}
+  \parameter[for={t\in T}]{B_t}{Shared capacity}
+  \parameter[for={j\in J,t\in T}]{a_j,U_{jt},S_j}{Resource use, production bound, and storage capacity}
+  \parameter[for={j\in J}]{s_j^{\mathrm{init}},s_j^{\mathrm{target}}}{Initial inventory and required final inventory}
+  \parameter[for={i\in J,j\in J,t\in T}]{q_{ijt}}{Shipment cost}
+\end{orparameters}
+\begin{orvariables}
+  \variable[type=nonnegative,for={j\in J,t\in T}]{x_{jt}}{Production}
+  \variable[type=nonnegative,for={j\in J,t\in T}]{s_{jt}}{Ending inventory}
+  \variable[type=integer,for={i\in J,j\in J,t\in T}]{z_{ijt}}{Shipment quantity}
+  \variable[type=binary,for={j\in J,t\in T}]{y_{jt}}{Setup indicator}
+\end{orvariables}
+\begin{ormodel}
+  \objective[min,label=planning:0]{{\sum_{j\in J,t\in T}(c_{jt}x_{jt}+f_{jt}y_{jt}+h_{jt}s_{jt})\\{}+\sum_{i\in J,j\in J,t\in T}q_{ijt}z_{ijt}}}
+  \constraint[label=planning:1,for={j\in J,t\in T}]{x_{jt}+s_{j,t-1}-s_{jt}=d_{jt}}
+  \constraint[label=planning:2,for={j\in J,t\in T}]{x_{jt}\leq U_{jt}y_{jt}}
+  \constraint[label=planning:3,for={t\in T}]{\sum_{j\in J}a_j x_{jt}\leq B_t}
+  \constraint[label=planning:4,for={j\in J,t\in T}]{s_{jt}\leq S_j}
+  \constraint[label=planning:5,for={j\in J}]{s_{j0}=s_j^{\mathrm{init}}}
+  \constraint[label=planning:6,for={j\in J}]{s_{jT}\geq s_j^{\mathrm{target}}}
+  \constraint[label=planning:7,for={j\in J,t\in T}]{\sum_{i\in J}z_{ijt}\leq d_{jt}}
+  \constraint[label=planning:8,for={i\in J,j\in J,t\in T}]{z_{ijt}\leq U_{it}y_{it}}
+  \constraint[label=planning:9,for={j\in J,t\in T}]{x_{jt},s_{jt}\geq0}
+  \constraint[label=planning:10,for={i\in J,j\in J,t\in T}]{z_{ijt}\in\mathrm Z}
+  \constraint[label=planning:11,for={j\in J,t\in T}]{y_{jt}\in\{0,1\}}
+\end{ormodel}

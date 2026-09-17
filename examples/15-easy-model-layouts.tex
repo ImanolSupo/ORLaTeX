@@ -1,0 +1,19 @@
+% Copyright 2026 Imanol Felix Supo Mamani. Licensed under LPPL 1.3c.
+% See NOTICE.md and MANIFEST.txt for work scope and maintenance.
+
+\documentclass{article}
+\usepackage{orlatex}
+\begin{document}
+\section*{Planning at normal width}
+\input{examples/comparison/planning-light.tex}
+\clearpage
+\section*{Planning at a narrower local width}
+% Labels in this second inclusion are intentionally disabled; these are the
+% same model, not a second set of identically named reference destinations.
+\begingroup
+\noindent\begin{minipage}{.62\linewidth}
+\renewcommand{\label}[1]{}
+\input{examples/comparison/planning-light.tex}
+\end{minipage}
+\endgroup
+\end{document}
